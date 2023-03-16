@@ -1,6 +1,6 @@
 vim.g.mapleader = ' '
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 
 -- buffer navigation
 vim.keymap.set('n', '<Tab>', vim.cmd.BufferLineCycleNext, opts)
@@ -23,7 +23,7 @@ if status_ok then
 end
 
 -- nvim-tree
-vim.keymap.set('n', '<C-n>', vim.cmd.NvimTreeToggle, opts)
+vim.keymap.set('n', '<C-n>', vim.cmd.NeoTreeRevealToggle, opts)
 
 -- trouble
 vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>', opts)

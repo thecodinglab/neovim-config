@@ -16,7 +16,7 @@ bufferline.setup({
 
     offsets = {
       {
-        filetype = 'NvimTree',
+        filetype = 'neo-tree',
         text = vim.fn.getcwd,
         highlight = 'Directory',
       },

@@ -7,6 +7,6 @@ lualine.setup({
   options = {
     icons_enabled = true,
     theme = 'onedark',
-    disabled_filetypes = { 'NvimTree', 'Outline' },
+    disabled_filetypes = { 'neo-tree', 'Outline' },
   },
 })

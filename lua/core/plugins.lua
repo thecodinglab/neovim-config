@@ -1,61 +1,76 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable',
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
-
-local status_ok, packer = pcall(require, 'packer')
+local status_ok, lazy = pcall(require, 'lazy')
 if not status_ok then
   return
 end
 
-return packer.startup(function(use)
-  use { 'wbthomason/packer.nvim' }
-  use { 'nvim-lua/plenary.nvim' }
+lazy.setup({
+  -- utility
+  'nvim-lua/plenary.nvim',
+  'MunifTanjim/nui.nvim',
+  'nvim-tree/nvim-web-devicons',
 
   -- lsp
-  use { 'neovim/nvim-lspconfig' }
-  use { 'williamboman/mason.nvim' }
-  use { 'williamboman/mason-lspconfig.nvim' }
-  use { 'folke/trouble.nvim' }
-  use { 'folke/neodev.nvim' }
+  'neovim/nvim-lspconfig',
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
+  'folke/trouble.nvim',
+  { 'folke/neoconf.nvim',  cmd = 'Neoconf' },
+  'folke/neodev.nvim',
 
-  use { 'ms-jpq/coq_nvim', branch = 'coq' }
-  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+  -- snippet engine
+  {
+    "L3MON4D3/LuaSnip",
+    build = "make install_jsregexp"
+  },
+
+  -- completion
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-nvim-lsp',
+  'saadparwaiz1/cmp_luasnip',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
 
   -- treesitter
-  use { 'nvim-treesitter/nvim-treesitter' }
-  use { 'nvim-treesitter/playground' }
+  'nvim-treesitter/nvim-treesitter',
+  'nvim-treesitter/playground',
 
   -- telescope
-  use { 'nvim-telescope/telescope.nvim' }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  'nvim-telescope/telescope.nvim',
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make',
+  },
 
-  -- nvim-tree
-  use { 'nvim-tree/nvim-tree.lua' }
+  -- filesystem tree
+  'nvim-neo-tree/neo-tree.nvim',
 
   -- theme
-  use { 'navarasu/onedark.nvim' }
-  use { 'nvim-tree/nvim-web-devicons' }
+  {
+    'navarasu/onedark.nvim',
+    init = function() require('core.theme') end,
+    priority = 1000,
+  },
 
   -- other
-  use { 'nvim-lualine/lualine.nvim' }
-  use { 'akinsho/bufferline.nvim' }
-  use { 'numToStr/Comment.nvim' }
-  use { 'folke/todo-comments.nvim' }
-  use { 'moll/vim-bbye' }
+  'nvim-lualine/lualine.nvim',
+  'akinsho/bufferline.nvim',
+  'numToStr/Comment.nvim',
+  'folke/todo-comments.nvim',
+  'moll/vim-bbye',
 
   -- syntax highlighting
-  use { 'ARM9/arm-syntax-vim' }
-
-  if packer_bootstrap then
-    packer.sync()
-  end
-end)
+  { 'ARM9/arm-syntax-vim', filetype = 'armv4' }
+})
