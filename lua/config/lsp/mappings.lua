@@ -6,7 +6,8 @@ local function lsp_hover_highlight(client, bufnr)
   end
 
   vim.api.nvim_create_autocmd({ 'CursorHold' }, {
-    group = vim.api.nvim_create_augroup('lsp_document_highlight_hold', { clear = true }),
+    buffer = bufnr,
+    group = vim.api.nvim_create_augroup('lsp_document_highlight_hold', { clear = false }),
     callback = function()
       vim.lsp.buf.document_highlight()
     end,
@@ -14,7 +15,7 @@ local function lsp_hover_highlight(client, bufnr)
 
   vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
     buffer = bufnr,
-    group = vim.api.nvim_create_augroup('lsp_document_highlight_moved', { clear = true }),
+    group = vim.api.nvim_create_augroup('lsp_document_highlight_moved', { clear = false }),
     callback = function()
       vim.lsp.buf.clear_references()
     end,
@@ -28,7 +29,7 @@ local function lsp_autoformat(client, bufnr)
 
   vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
     buffer = bufnr,
-    group = vim.api.nvim_create_augroup('lsp_autoformat', { clear = true }),
+    group = vim.api.nvim_create_augroup('lsp_autoformat', { clear = false }),
     callback = function()
       vim.lsp.buf.format({ async = false })
     end,
