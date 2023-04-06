@@ -29,6 +29,7 @@ lazy.setup({
   'folke/trouble.nvim',
   { 'folke/neoconf.nvim',  cmd = 'Neoconf' },
   'folke/neodev.nvim',
+  'jose-elias-alvarez/null-ls.nvim',
 
   -- snippet engine
   {
