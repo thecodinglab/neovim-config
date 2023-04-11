@@ -11,7 +11,7 @@ vim.opt.swapfile = false
 vim.opt.undofile = true
 
 vim.opt.termguicolors = true
-vim.opt.colorcolumn = '120'
+vim.opt.colorcolumn = '80'
 
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
