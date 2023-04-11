@@ -31,7 +31,7 @@ local function lsp_autoformat(client, bufnr)
     buffer = bufnr,
     group = vim.api.nvim_create_augroup('lsp_autoformat', { clear = false }),
     callback = function()
-      vim.lsp.buf.format({ async = false })
+      vim.lsp.buf.format({ bufnr = bufnr, async = false })
     end,
   })
 end
