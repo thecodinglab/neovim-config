@@ -64,9 +64,9 @@ lazy.setup({
 
   -- theme
   {
-    'navarasu/onedark.nvim',
+    'rose-pine/neovim',
+    name = 'rose-pine',
     init = function() require('core.theme') end,
-    priority = 1000,
   },
 
   -- other
