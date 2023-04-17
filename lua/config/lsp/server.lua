@@ -1,4 +1,15 @@
 return {
-  ensure_installed = { 'clangd', 'gopls', 'lua-language-server' },
-  enabled = { 'clangd', 'gopls', 'lua_ls' },
+  enabled = {
+    'clangd',
+    'gopls',
+    'lua_ls',
+    'tsserver',
+  },
+  tsserver = {
+    init_options = {
+      preferences = {
+        importModuleSpecifierPreference = 'non-relative',
+      },
+    }
+  }
 }
