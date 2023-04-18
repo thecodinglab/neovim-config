@@ -20,18 +20,17 @@ mason_lspconfig.setup({
 })
 
 function M.get_global_capabilities()
-  if not M.global_capabilities then
-    local global_capabilities = {
-      offsetEncoding = 'utf-8',
-    }
+  local global_capabilities = {
+    offsetEncoding = 'utf-8',
+  }
 
+  local lazy_cmp_plugin = require('lazy.core.config').plugins['cmp-nvim-lsp']
+  if lazy_cmp_plugin._.loaded then
     local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
     global_capabilities = vim.tbl_deep_extend('force', global_capabilities, cmp_capabilities)
-
-    M.global_capabilities = global_capabilities
   end
 
-  return M.global_capabilities
+  return global_capabilities
 end
 
 function M.get_config(server_name)
@@ -49,11 +48,24 @@ function M.get_config(server_name)
   return config
 end
 
+local lspconfig = require('lspconfig')
+local file_util = require('util.file')
+
 function M.setup()
   mason_lspconfig.setup_handlers({
     function(server_name)
       local config = M.get_config(server_name)
-      require('lspconfig')[server_name].setup(config)
+
+      lspconfig[server_name].setup(config)
+
+      local previous_try_add = lspconfig[server_name].manager.try_add
+      lspconfig[server_name].manager.try_add = function(bufnr)
+        if file_util.is_large_buffer(bufnr) then
+          return
+        end
+
+        previous_try_add(bufnr)
+      end
     end
   })
 end

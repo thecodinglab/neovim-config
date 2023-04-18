@@ -3,9 +3,21 @@ if not status_ok then
   return
 end
 
+local previewers = require('telescope.previewers')
+local file_util = require('util.file')
+
+local function custom_previewer_maker(filepath, bufnr, opts)
+  if file_util.is_large_file(filepath) then
+    return
+  end
+
+  previewers.buffer_previewer_maker(filepath, bufnr, opts)
+end
+
 telescope.setup({
   defaults = {
-    vimgrep_arguments = { 'ag', '--vimgrep' }
+    vimgrep_arguments = { 'ag', '--vimgrep' },
+    buffer_previewer_maker = custom_previewer_maker,
   },
   pickers = {
     find_files = {

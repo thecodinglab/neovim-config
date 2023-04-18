@@ -27,7 +27,7 @@ lazy.setup({
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
   'folke/trouble.nvim',
-  { 'folke/neoconf.nvim',  cmd = 'Neoconf' },
+  { 'folke/neoconf.nvim', cmd = 'Neoconf' },
   'folke/neodev.nvim',
   'jose-elias-alvarez/null-ls.nvim',
 
@@ -42,15 +42,23 @@ lazy.setup({
   },
 
   -- completion
-  'hrsh7th/nvim-cmp',
-  'hrsh7th/cmp-nvim-lsp',
-  'saadparwaiz1/cmp_luasnip',
-  'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-path',
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+    },
+    lazy = true,
+  },
 
   -- treesitter
   'nvim-treesitter/nvim-treesitter',
-  'nvim-treesitter/playground',
+  {
+    'nvim-treesitter/playground',
+    cmd = 'TSPlaygroundToggle',
+  },
 
   -- telescope
   'nvim-telescope/telescope.nvim',
@@ -74,8 +82,18 @@ lazy.setup({
   'akinsho/bufferline.nvim',
   'numToStr/Comment.nvim',
   'folke/todo-comments.nvim',
-  'moll/vim-bbye',
+  {
+    'moll/vim-bbye',
+    cmd = { 'Bdelete', 'Bwipeout' },
+  },
 
   -- syntax highlighting
-  { 'ARM9/arm-syntax-vim', filetype = 'armv4' }
+  {
+    'ARM9/arm-syntax-vim',
+    filetype = 'armv4',
+  },
+}, {
+  defaults = {
+    lazy = true,
+  }
 })

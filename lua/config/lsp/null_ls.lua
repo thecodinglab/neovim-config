@@ -3,6 +3,8 @@ if not status_ok then
   return
 end
 
+local file_util = require('util.file')
+
 null_ls.setup({
   sources = {
     -- General
@@ -18,4 +20,7 @@ null_ls.setup({
     null_ls.builtins.code_actions.eslint,
     null_ls.builtins.formatting.prettier,
   },
+  should_attach = function(bufnr)
+    return not file_util.is_large_buffer(bufnr)
+  end,
 })
