@@ -12,6 +12,7 @@ require('config.todo-comments')
 
 require('config.treesitter')
 require('config.luasnip')
+require('config.copilot')
 require('config.cmp')
 
 require('config.lsp')

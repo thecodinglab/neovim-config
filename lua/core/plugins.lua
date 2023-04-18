@@ -36,9 +36,11 @@ lazy.setup({
     'L3MON4D3/LuaSnip',
     build = 'make install_jsregexp'
   },
+
   {
-    'github/copilot.vim',
-    lazy = false,
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = 'InsertEnter',
   },
 
   -- completion
