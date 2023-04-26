@@ -3,4 +3,8 @@ if not status_ok then
   return
 end
 
-luasnip.lazy_load()
+luasnip.lazy_load({
+  paths = {
+    vim.fn.getcwd() .. '/.snippets',
+  },
+})

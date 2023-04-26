@@ -34,7 +34,7 @@ lazy.setup({
   -- snippet engine
   {
     'L3MON4D3/LuaSnip',
-    build = 'make install_jsregexp'
+    build = 'make install_jsregexp LUAJIT_OSX_PATH=/opt/local'
   },
 
   {
@@ -63,10 +63,14 @@ lazy.setup({
   },
 
   -- telescope
-  'nvim-telescope/telescope.nvim',
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make',
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+      },
+    },
   },
 
   -- filesystem tree
