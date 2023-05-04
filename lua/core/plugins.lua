@@ -76,6 +76,17 @@ lazy.setup({
   -- filesystem tree
   'nvim-neo-tree/neo-tree.nvim',
 
+  -- git
+  {
+    'airblade/vim-gitgutter',
+    lazy = false,
+  },
+  {
+    'sindrets/diffview.nvim',
+    cmd = 'DiffviewOpen',
+  },
+
+
   -- theme
   {
     'rose-pine/neovim',
