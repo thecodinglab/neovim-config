@@ -1,5 +1,5 @@
 local M = {
-  MAX_FILESIZE = 10000, -- 10kb
+  MAX_FILESIZE = 100000, -- 100kb
 }
 
 function M.is_large_file(filename)
