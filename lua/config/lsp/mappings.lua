@@ -53,6 +53,8 @@ local function lsp_keymap(client, bufnr)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
 
+  vim.keymap.set('n', '<leader>l', vim.lsp.buf.format, bufopts)
+
   local telescope_status_ok, telescope = pcall(require, 'telescope.builtin')
   if telescope_status_ok then
     vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
