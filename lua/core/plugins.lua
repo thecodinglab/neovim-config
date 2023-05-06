@@ -16,7 +16,7 @@ if not status_ok then
   return
 end
 
-lazy.setup({
+local plugins = {
   -- utility
   'nvim-lua/plenary.nvim',
   'MunifTanjim/nui.nvim',
@@ -109,7 +109,16 @@ lazy.setup({
     'ARM9/arm-syntax-vim',
     filetype = 'armv4',
   },
-}, {
+}
+
+local host_plugins = require('util.host').plugins
+if host_plugins then
+  for _, plugin in ipairs(host_plugins) do
+    table.insert(plugins, plugin)
+  end
+end
+
+lazy.setup(plugins, {
   defaults = {
     lazy = true,
   }

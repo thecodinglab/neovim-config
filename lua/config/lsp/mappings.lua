@@ -74,8 +74,12 @@ end
 
 function M.on_attach(client, bufnr)
   lsp_hover_highlight(client, bufnr)
-  lsp_autoformat(client, bufnr)
   lsp_keymap(client, bufnr)
+
+  local lsp_host_config = require('util.host').lsp
+  if lsp_host_config.autoformat then
+    lsp_autoformat(client, bufnr)
+  end
 end
 
 return M
