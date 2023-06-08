@@ -37,3 +37,13 @@ vim.keymap.set('v', '>', '>gv', opts)
 -- clipboard
 vim.keymap.set('v', '<leader>y', '"+y', opts)
 vim.keymap.set('n', '<leader>p', '"+p', opts)
+
+-- create scratch buffer
+function create_scratch()
+  vim.cmd('enew')
+  vim.bo.buftype = 'nofile'
+  vim.bo.bufhidden = 'hide'
+  vim.bo.swapfile = false
+end
+
+vim.keymap.set('n', '<leader>e', create_scratch, opts)
