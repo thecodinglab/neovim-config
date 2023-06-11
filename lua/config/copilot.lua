@@ -4,6 +4,12 @@ if not status_ok then
 end
 
 copilot.setup({
+  panel = {
+    layout = {
+      position = 'right',
+      ratio = 0.3,
+    },
+  },
   suggestion = {
     enabled = true,
     auto_trigger = true,
