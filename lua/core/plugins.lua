@@ -100,6 +100,10 @@ local plugins = {
   'numToStr/Comment.nvim',
   'folke/todo-comments.nvim',
   {
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
+  },
+  {
     'moll/vim-bbye',
     cmd = { 'Bdelete', 'Bwipeout' },
   },
