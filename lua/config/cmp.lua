@@ -63,7 +63,7 @@ local function setup()
     mapping = {
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm { select = false },
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -74,10 +74,7 @@ local function setup()
         else
           fallback()
         end
-      end, {
-        'i',
-        's',
-      }),
+      end, { 'i', 's' }),
       ['<S-Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
@@ -86,10 +83,7 @@ local function setup()
         else
           fallback()
         end
-      end, {
-        'i',
-        's',
-      }),
+      end, { 'i', 's' }),
     },
   })
 end
