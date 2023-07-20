@@ -1,9 +1,7 @@
 local file_util = require('util.file')
 
 return {
-  -- TODO: enable treesitter installed packages
-  -- ensure_installed = 'all',
-  ensure_installed = { 'go' },
+  ensure_installed = 'all',
   ignore_install = {},
 
   sync_install = false,
