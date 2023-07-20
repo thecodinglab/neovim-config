@@ -69,7 +69,7 @@ end
 function M.on_attach(client, bufnr)
   lsp_hover_highlight(client, bufnr)
   lsp_keymap(client, bufnr)
-  
+
   local opts = require('config.lsp.server')[client.name]
   if not opts or not (opts.autoformat == false) then
     lsp_autoformat(client, bufnr)

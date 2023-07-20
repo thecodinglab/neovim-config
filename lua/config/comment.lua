@@ -1,4 +1,4 @@
--- NOTE: when adjusting the shortcuts, the triggers inside `plugins.lua` also 
+-- NOTE: when adjusting the shortcuts, the triggers inside `plugins.lua` also
 --       need to be adjusted.
 
 return {

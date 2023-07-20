@@ -26,7 +26,7 @@ local function configure_server(server_name, opts)
   if opts and opts.config then
     config = vim.tbl_deep_extend('force', config, opts.config)
   end
-      
+
   require('lspconfig')[server_name].setup(config)
 end
 
