@@ -16,6 +16,14 @@ return {
       folder_closed = "",
       folder_open = "",
       folder_empty = "",
+      default = "",
+    },
+    git_status = {
+      symbols = {
+        modified = "",
+        staged = "",
+        untracked = "",
+      },
     },
   },
   filesystem = {
