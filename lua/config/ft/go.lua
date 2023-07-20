@@ -1,6 +1,14 @@
 local function organize_imports(wait_ms)
+  if not vim.lsp.buf.server_ready() then
+    -- skip organization of imports when lsp is not ready
+    return
+  end
+
   local params = vim.lsp.util.make_range_params()
-  params.context = { only = { 'source.organizeImports' } }
+  params.context = {
+    only = { 'source.organizeImports' }
+  }
+
   local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, wait_ms)
   for _, res in pairs(result or {}) do
     for _, r in pairs(res.result or {}) do
@@ -17,6 +25,6 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   group = vim.api.nvim_create_augroup('go_format_imports', { clear = true }),
   pattern = { '*.go' },
   callback = function()
-    organize_imports(1000)
+    organize_imports(300)
   end,
 })

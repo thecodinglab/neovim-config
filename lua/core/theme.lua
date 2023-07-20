@@ -13,6 +13,8 @@ function M.is_light()
   return M.theme == M.LIGHT
 end
 
+-- determines the current theme of the operating system through a script found
+-- in scripts/os_theme.sh
 local function determine_os_theme()
   local paths = vim.api.nvim_list_runtime_paths()
   for _, path in ipairs(paths) do
@@ -32,7 +34,7 @@ local function determine_os_theme()
   return M.DARK
 end
 
-local function select(theme)
+function M.select(theme)
   M.theme = theme
 
   local variant = 'main'
@@ -43,9 +45,8 @@ local function select(theme)
   require('rose-pine').colorscheme(variant)
 end
 
-
-M.select = select
-
-select(determine_os_theme())
+function M.setup()
+  M.select(determine_os_theme())
+end
 
 return M

@@ -1,9 +1,7 @@
-local status_ok, comment = pcall(require, 'Comment')
-if not status_ok then
-  return
-end
+-- NOTE: when adjusting the shortcuts, the triggers inside `plugins.lua` also 
+--       need to be adjusted.
 
-comment.setup({
+return {
   toggler = {
     line = '<leader>/',
     block = '<leader>b/',
@@ -12,4 +10,4 @@ comment.setup({
     line = '<leader>/',
     block = '<leader>b/',
   },
-})
+}

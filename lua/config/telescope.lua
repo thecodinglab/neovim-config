@@ -1,12 +1,7 @@
-local status_ok, telescope = pcall(require, 'telescope')
-if not status_ok then
-  return
-end
-
-local previewers = require('telescope.previewers')
-local file_util = require('util.file')
-
 local function custom_previewer_maker(filepath, bufnr, opts)
+  local previewers = require('telescope.previewers')
+  local file_util = require('util.file')
+
   if file_util.is_large_file(filepath) then
     return
   end
@@ -14,7 +9,7 @@ local function custom_previewer_maker(filepath, bufnr, opts)
   previewers.buffer_previewer_maker(filepath, bufnr, opts)
 end
 
-telescope.setup({
+return {
   defaults = {
     vimgrep_arguments = { 'ag', '--vimgrep' },
     buffer_previewer_maker = custom_previewer_maker,
@@ -32,6 +27,4 @@ telescope.setup({
       case_mode = 'smart_case',
     },
   },
-})
-
-telescope.load_extension('fzf')
+}

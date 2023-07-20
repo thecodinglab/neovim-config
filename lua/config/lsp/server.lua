@@ -1,15 +1,12 @@
 return {
-  enabled = {
-    'clangd',
-    'gopls',
-    'lua_ls',
-    'tsserver',
-  },
   tsserver = {
-    init_options = {
-      preferences = {
-        importModuleSpecifierPreference = 'non-relative',
+    autoformat = false,
+    config = {
+      init_options = {
+        preferences = {
+          importModuleSpecifierPreference = 'non-relative',
+        },
       },
-    }
-  }
+    },
+  },
 }

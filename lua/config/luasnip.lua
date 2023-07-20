@@ -1,10 +1,8 @@
-local status_ok, luasnip = pcall(require, 'luasnip/loaders/from_vscode')
-if not status_ok then
-  return
+local M = {}
+
+function M.config()
+  require('luasnip.loaders.from_vscode').lazy_load()
+  require('luasnip.loaders.from_lua').lazy_load()
 end
 
-luasnip.lazy_load({
-  paths = {
-    vim.fn.getcwd() .. '/.snippets',
-  },
-})
+return M

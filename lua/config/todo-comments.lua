@@ -1,9 +1,4 @@
-local status_ok, todo_comments = pcall(require, 'todo-comments')
-if not status_ok then
-  return
-end
-
-todo_comments.setup({
+return {
   highlight = {
     before = '',
     keyword = 'bg',
@@ -17,4 +12,4 @@ todo_comments.setup({
     pattern = [[(KEYWORDS)(\(\w+\))?:]]
     -- pattern = '\\b(KEYWORDS)(\\(\\w+\\))?:',
   },
-})
+}

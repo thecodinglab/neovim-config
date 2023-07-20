@@ -1,9 +1,4 @@
-local status_ok, copilot = pcall(require, 'copilot')
-if not status_ok then
-  return
-end
-
-copilot.setup({
+return {
   panel = {
     layout = {
       position = 'right',
@@ -11,10 +6,10 @@ copilot.setup({
     },
   },
   suggestion = {
-    enabled = true,
+    enabled = false,
     auto_trigger = true,
     keymap = {
       accept = '<C-l>',
     },
   },
-})
+}

@@ -11,19 +11,13 @@ vim.keymap.set('n', '<S-h>', vim.cmd.BufferLineMovePrev, opts)
 
 vim.keymap.set('n', '<leader>p', vim.cmd.BufferLineTogglePin, opts)
 
--- lsp
-
-
 -- telescope
-local status_ok, telescope = pcall(require, 'telescope.builtin')
-if status_ok then
-  vim.keymap.set('n', '<leader>f', telescope.find_files, opts)
-  vim.keymap.set('n', '<leader><S-f>', telescope.live_grep, opts)
-  vim.keymap.set('n', '<leader>b', telescope.buffers, opts)
-end
+vim.keymap.set('n', '<leader>f', function(...) require('telescope.builtin').find_files(...) end, opts)
+vim.keymap.set('n', '<leader><S-f>', function(...) require('telescope.builtin').live_grep(...) end, opts)
+vim.keymap.set('n', '<leader>b', function(...) require('telescope.builtin').buffers(...) end, opts)
 
 -- nvim-tree
-vim.keymap.set('n', '<C-n>', vim.cmd.NeoTreeRevealToggle, opts)
+vim.keymap.set('n', '<C-n>', '<cmd>Neotree filesystem toggle left<cr>', opts)
 
 -- trouble
 vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>', opts)
@@ -38,8 +32,11 @@ vim.keymap.set('v', '>', '>gv', opts)
 vim.keymap.set('v', '<leader>y', '"+y', opts)
 vim.keymap.set('n', '<leader>p', '"+p', opts)
 
+-- save
+vim.keymap.set('n', '<leader>w', '<cmd>silent write<cr>', opts)
+
 -- create scratch buffer
-function create_scratch()
+local function create_scratch()
   vim.cmd('enew')
   vim.bo.buftype = 'nofile'
   vim.bo.bufhidden = 'hide'

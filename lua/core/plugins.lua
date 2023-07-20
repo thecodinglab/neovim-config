@@ -1,5 +1,6 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
+  -- clone lazy if not already exists
   vim.fn.system({
     'git',
     'clone',
@@ -23,43 +24,86 @@ local plugins = {
   'nvim-tree/nvim-web-devicons',
 
   -- lsp
-  'neovim/nvim-lspconfig',
-  'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
-  'folke/trouble.nvim',
-  { 'folke/neoconf.nvim', cmd = 'Neoconf' },
-  'folke/neodev.nvim',
-  'jose-elias-alvarez/null-ls.nvim',
-
-  -- snippet engine
   {
-    'L3MON4D3/LuaSnip',
-    build = 'make install_jsregexp LUAJIT_OSX_PATH=/opt/local'
+    'neovim/nvim-lspconfig',
+    -- TODO: can this be done on-demand (lazy)?
+    lazy = false,
   },
+  {
+    'williamboman/mason.nvim',
+    -- TODO: can this be done on-demand (lazy)?
+    lazy = false,
+    cmd = {
+      'Mason',
+      'MasonInstall',
+      'MasonInstallAll',
+      'MasonUninstall',
+      'MasonUninstallAll',
+      'MasonLog',
+    },
+    dependencies = {
+      -- TODO: where to move this?
+      'williamboman/mason-lspconfig.nvim',
+    },
+    config = function()
+      local opts = require('config.lsp.mason')
+      require('mason').setup(opts.mason)
+      require('mason-lspconfig').setup(opts.mason_lspconfig)
+
+      require('core.lsp.server').setup()
+    end,
+  },
+  {
+    'folke/trouble.nvim',
+    cmd = { 'Trouble', 'TroubleToggle' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {},
+  },
+  'folke/neodev.nvim',
 
   {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
-    event = 'InsertEnter',
+    opts = require('config.copilot'),
   },
 
   -- completion
   {
     'hrsh7th/nvim-cmp',
+    event = "InsertEnter",
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
+      {
+        'L3MON4D3/LuaSnip',
+        -- NOTE: fix to make it possible to use on macos with macports
+        build = 'make install_jsregexp LUAJIT_OSX_PATH=/opt/local',
+        dependencies = { 'rafamadriz/friendly-snippets' },
+        config = require('config.luasnip').config
+      },
+
       'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
     },
-    lazy = true,
+    opts = function()
+      return require('config.cmp')
+    end,
   },
 
   -- treesitter
-  'nvim-treesitter/nvim-treesitter',
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
+    main = 'nvim-treesitter.configs',
+    opts = require('config.treesitter'),
+  },
   {
     'nvim-treesitter/playground',
     cmd = 'TSPlaygroundToggle',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    }
   },
 
   -- telescope
@@ -71,15 +115,34 @@ local plugins = {
         build = 'make',
       },
     },
+    cmd = 'Telescope',
+    opts = require('config.telescope'),
+    config = function(_, opts)
+      local telescope = require('telescope')
+
+      telescope.setup(opts)
+      telescope.load_extension('fzf')
+    end,
   },
 
   -- filesystem tree
-  'nvim-neo-tree/neo-tree.nvim',
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim',
+    },
+    cmd = 'Neotree',
+    main = 'neo-tree',
+    opts = require('config.neo-tree'),
+  },
 
   -- git
   {
-    'airblade/vim-gitgutter',
-    lazy = false,
+    'lewis6991/gitsigns.nvim',
+    event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
+    opts = require('config.gitsigns'),
   },
   {
     'sindrets/diffview.nvim',
@@ -91,14 +154,42 @@ local plugins = {
   {
     'rose-pine/neovim',
     name = 'rose-pine',
-    init = function() require('core.theme') end,
+    init = function()
+      require('core.theme').setup()
+    end,
+  },
+
+  -- comments
+  {
+    'numToStr/Comment.nvim',
+    keys = {
+      { vim.g.mapleader .. '/',  mode = 'n' },
+      { vim.g.mapleader .. 'b/', mode = 'n' },
+      { vim.g.mapleader .. '/',  mode = 'v' },
+      { vim.g.mapleader .. 'b/', mode = 'v' },
+    },
+    opts = require('config.comment'),
+  },
+  {
+    'folke/todo-comments.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
+    opts = require('config.todo-comments'),
   },
 
   -- other
-  'nvim-lualine/lualine.nvim',
-  'akinsho/bufferline.nvim',
-  'numToStr/Comment.nvim',
-  'folke/todo-comments.nvim',
+  {
+    'nvim-lualine/lualine.nvim',
+    opts = require('config.lualine'),
+    -- TODO: can this be done on-demand (lazy)?
+    lazy = false,
+  },
+  {
+    'akinsho/bufferline.nvim',
+    opts = require('config.bufferline'),
+    -- TODO: can this be done on-demand (lazy)?
+    lazy = false,
+  },
   {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
@@ -107,20 +198,7 @@ local plugins = {
     'moll/vim-bbye',
     cmd = { 'Bdelete', 'Bwipeout' },
   },
-
-  -- syntax highlighting
-  {
-    'ARM9/arm-syntax-vim',
-    filetype = 'armv4',
-  },
 }
-
-local host_plugins = require('util.host').plugins
-if host_plugins then
-  for _, plugin in ipairs(host_plugins) do
-    table.insert(plugins, plugin)
-  end
-end
 
 lazy.setup(plugins, {
   defaults = {
