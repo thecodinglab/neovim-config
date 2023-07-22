@@ -17,6 +17,11 @@ if not status_ok then
   return
 end
 
+local project_status_ok, project_plugins = pcall(require, 'project.plugins')
+if not project_status_ok then
+  project_plugins = {}
+end
+
 local plugins = {
   -- utility
   'nvim-lua/plenary.nvim',
@@ -198,7 +203,12 @@ local plugins = {
     'moll/vim-bbye',
     cmd = { 'Bdelete', 'Bwipeout' },
   },
+
+  -- project local plugins
+  unpack(project_plugins)
 }
+
+
 
 lazy.setup(plugins, {
   defaults = {

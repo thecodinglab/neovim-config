@@ -1,3 +1,5 @@
+require('util.project')
+
 require('core.options')
 require('core.mappings')
 
