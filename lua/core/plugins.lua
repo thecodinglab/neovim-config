@@ -203,6 +203,12 @@ local plugins = {
     'moll/vim-bbye',
     cmd = { 'Bdelete', 'Bwipeout' },
   },
+  {
+    'aserowy/tmux.nvim',
+    -- TODO: can this be done on-demand (lazy)?
+    lazy = false,
+    opts = {},
+  },
 
   -- project local plugins
   unpack(project_plugins)
