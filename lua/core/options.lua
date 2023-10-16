@@ -26,7 +26,7 @@ vim.g.loaded_netrwPlugin = 1
 -- other
 vim.opt.termguicolors = true
 
-vim.opt.mouse = 'a'
+vim.opt.mouse = ''
 vim.opt.shortmess = 'IF'
 
 vim.opt.listchars = {
