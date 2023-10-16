@@ -207,7 +207,13 @@ local plugins = {
     'aserowy/tmux.nvim',
     -- TODO: can this be done on-demand (lazy)?
     lazy = false,
-    opts = {},
+    opts = {
+      navigation = {
+        cycle_navigation = false,
+        enable_default_keybindings = true,
+      },
+    },
+  },
   },
 
   -- project local plugins
