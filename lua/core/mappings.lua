@@ -14,7 +14,9 @@ vim.keymap.set('n', '<leader>p', vim.cmd.BufferLineTogglePin, opts)
 -- telescope
 vim.keymap.set('n', '<leader>f', function(...) require('telescope.builtin').find_files(...) end, opts)
 vim.keymap.set('n', '<leader><S-f>', function(...) require('telescope.builtin').live_grep(...) end, opts)
-vim.keymap.set('n', '<leader>b', function(...) require('telescope.builtin').buffers(...) end, opts)
+-- leader b clashes with another keybinding and causes vim to wait for the
+-- timeout which delays the execution of this command.
+vim.keymap.set('n', '<leader>bf', function(...) require('telescope.builtin').buffers(...) end, opts)
 
 -- nvim-tree
 vim.keymap.set('n', '<C-n>', '<cmd>Neotree filesystem toggle left<cr>', opts)
