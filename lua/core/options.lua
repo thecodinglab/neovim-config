@@ -3,10 +3,13 @@ vim.opt.fileencoding = 'utf-8'
 vim.opt.spelllang = 'en'
 
 -- line handling
+vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.colorcolumn = '80'
 vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
 vim.opt.wrap = false
+
+vim.opt.colorcolumn = '80'
 
 -- file backups
 vim.opt.backup = false

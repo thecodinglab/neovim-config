@@ -46,7 +46,7 @@ function M.select(theme)
 end
 
 function M.setup()
-  M.select(determine_os_theme())
+  M.select('dark')
 end
 
 return M

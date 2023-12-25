@@ -104,6 +104,13 @@ local plugins = {
     opts = require('config.treesitter'),
   },
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    cmd = { 'TSContextEnable', 'TSContextDisable', 'TSContextToggle' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
+  },
+  {
     'nvim-treesitter/playground',
     cmd = 'TSPlaygroundToggle',
     dependencies = {
@@ -213,7 +220,6 @@ local plugins = {
         enable_default_keybindings = true,
       },
     },
-  },
   },
 
   -- project local plugins
