@@ -6,6 +6,9 @@ local M = {
     }
   },
 
+  gopls = {},
+  bufls = {},
+
   tsserver = {
     autoformat = false,
     config = {
@@ -16,6 +19,7 @@ local M = {
       },
     },
   },
+  svelte = {},
 }
 
 local ok, project = pcall(require, 'project.lsp.server')

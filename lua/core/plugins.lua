@@ -31,32 +31,8 @@ local plugins = {
   -- lsp
   {
     'neovim/nvim-lspconfig',
-    -- TODO: can this be done on-demand (lazy)?
-    lazy = false,
-  },
-  {
-    'williamboman/mason.nvim',
-    -- TODO: can this be done on-demand (lazy)?
-    lazy = false,
-    cmd = {
-      'Mason',
-      'MasonInstall',
-      'MasonInstallAll',
-      'MasonUninstall',
-      'MasonUninstallAll',
-      'MasonLog',
-    },
-    dependencies = {
-      -- TODO: where to move this?
-      'williamboman/mason-lspconfig.nvim',
-    },
-    config = function()
-      local opts = require('config.lsp.mason')
-      require('mason').setup(opts.mason)
-      require('mason-lspconfig').setup(opts.mason_lspconfig)
-
-      require('core.lsp.server').setup()
-    end,
+    event = 'VeryLazy',
+    config = require('core.lsp.server').setup
   },
   {
     'folke/trouble.nvim',
@@ -212,8 +188,7 @@ local plugins = {
   },
   {
     'aserowy/tmux.nvim',
-    -- TODO: can this be done on-demand (lazy)?
-    lazy = false,
+    event = 'VeryLazy',
     opts = {
       navigation = {
         cycle_navigation = false,

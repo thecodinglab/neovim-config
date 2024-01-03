@@ -1,6 +1,6 @@
 local M = {}
 
-local function build_capabilities(opts)
+function M.build_capabilities(opts)
   local capabilities = {
     offsetEncoding = 'utf-8',
   }
@@ -16,8 +16,8 @@ local function build_capabilities(opts)
   return capabilities
 end
 
-local function configure_server(server_name, opts)
-  local capabilities = build_capabilities(opts)
+function M.configure_server(server_name, opts)
+  local capabilities = M.build_capabilities(opts)
 
   local config = {
     on_attach = require('config.lsp.mappings').on_attach
@@ -31,12 +31,10 @@ local function configure_server(server_name, opts)
 end
 
 function M.setup()
-  require('mason-lspconfig').setup_handlers({
-    function(server_name)
-      local opts = require('config.lsp.server')[server_name]
-      configure_server(server_name, opts);
-    end,
-  })
+  local configs = require('config.lsp.server')
+  for name, opts in pairs(configs) do
+    M.configure_server(name, opts);
+  end
 end
 
 return M
