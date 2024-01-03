@@ -164,10 +164,10 @@ local plugins = {
 
   -- theme
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'shaunsingh/nord.nvim',
     init = function()
-      require('core.theme').setup()
+      vim.opt.termguicolors = true;
+      vim.cmd.colorscheme('nord');
     end,
   },
 
