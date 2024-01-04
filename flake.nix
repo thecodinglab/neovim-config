@@ -30,10 +30,7 @@
         silver-searcher
       ];
 
-      extraPathArgs = nixpkgs.lib.lists.flatten
-        (builtins.map
-          (pkg: [ "--prefix" "PATH" ":" "${pkg}/bin" ])
-          deps);
+      extraPathArgs = [ "--suffix" "PATH" ":" (nixpkgs.lib.makeBinPath deps) ];
 
       configs = pkgs.stdenv.mkDerivation {
         name = "neovim-configs";
@@ -48,28 +45,19 @@
       };
 
       makeWrappedNeovim = (package: pkgs.wrapNeovim package {
+        # required for github copilot
+        withNodeJs = true;
+
         extraMakeWrapperArgs = nixpkgs.lib.escapeShellArgs extraPathArgs;
         configure = {
           customRC = ''
             lua package.path = '${configs}/lua/?.lua;${configs}/lua/?/init.lua;' .. package.path
             luafile ${configs}/init.lua
+
+            lua vim.opt.runtimepath:remove(vim.fn.stdpath('config'))
           '';
         };
       });
-
-      # NOTE: change to `pkgs.neovim-unwrapped` when you don't want to build
-      # neovim on your own machine.
-      neovim-package = neovim.packages.${system}.neovim;
-
-      wrapped = pkgs.wrapNeovim neovim-package {
-        extraMakeWrapperArgs = nixpkgs.lib.escapeShellArgs extraPathArgs;
-        configure = {
-          customRC = ''
-            lua package.path = '${configs}/lua/?.lua;${configs}/lua/?/init.lua;' .. package.path
-            luafile ${configs}/init.lua
-          '';
-        };
-      };
 
       neovimPrebuilt = makeWrappedNeovim pkgs.neovim-unwrapped;
       neovimCustom = makeWrappedNeovim neovim.packages.${system}.neovim;
