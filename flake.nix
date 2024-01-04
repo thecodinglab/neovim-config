@@ -53,8 +53,6 @@
           customRC = ''
             lua package.path = '${configs}/lua/?.lua;${configs}/lua/?/init.lua;' .. package.path
             luafile ${configs}/init.lua
-
-            lua vim.opt.runtimepath:remove(vim.fn.stdpath('config'))
           '';
         };
       });
