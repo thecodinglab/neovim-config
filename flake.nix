@@ -47,6 +47,16 @@
         '';
       };
 
+      makeWrappedNeovim = (package: pkgs.wrapNeovim package {
+        extraMakeWrapperArgs = nixpkgs.lib.escapeShellArgs extraPathArgs;
+        configure = {
+          customRC = ''
+            lua package.path = '${configs}/lua/?.lua;${configs}/lua/?/init.lua;' .. package.path
+            luafile ${configs}/init.lua
+          '';
+        };
+      });
+
       # NOTE: change to `pkgs.neovim-unwrapped` when you don't want to build
       # neovim on your own machine.
       neovim-package = neovim.packages.${system}.neovim;
@@ -60,13 +70,30 @@
           '';
         };
       };
+
+      neovimPrebuilt = makeWrappedNeovim pkgs.neovim-unwrapped;
+      neovimCustom = makeWrappedNeovim neovim.packages.${system}.neovim;
     in
     {
-      packages.default = wrapped;
+      packages = rec {
+        prebuilt = neovimPrebuilt;
+        custom = neovimPrebuilt;
 
-      apps.default = {
-        type = "app";
-        program = "${wrapped}/bin/nvim";
+        default = prebuilt;
+      };
+
+      apps = rec {
+        prebuilt = {
+          type = "app";
+          program = "${neovimPrebuilt}/bin/nvim";
+        };
+
+        custom = {
+          type = "app";
+          program = "${neovimCustom}/bin/nvim";
+        };
+
+        default = prebuilt;
       };
 
       formatter = pkgs.nixpkgs-fmt;
