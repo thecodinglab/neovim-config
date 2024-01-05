@@ -62,6 +62,8 @@
     in
     {
       packages = rec {
+        inherit configs;
+
         prebuilt = neovimPrebuilt;
         custom = neovimPrebuilt;
 

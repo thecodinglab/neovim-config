@@ -1,6 +1,4 @@
-local M = {}
-
-local function lsp_hover_highlight(client, bufnr)
+local function hover_highlight(client, bufnr)
   if not client.server_capabilities.documentHighlightProvider then
     return
   end
@@ -22,8 +20,14 @@ local function lsp_hover_highlight(client, bufnr)
   })
 end
 
-local function lsp_autoformat(client, bufnr)
+local function autoformat(client, bufnr)
   if not client.server_capabilities.documentFormattingProvider then
+    return
+  end
+
+  -- disable autoformatting for typescript as it takes forever and slows down
+  -- my development workflow
+  if client.name == 'tsserver' then 
     return
   end
 
@@ -36,7 +40,7 @@ local function lsp_autoformat(client, bufnr)
   })
 end
 
-local function lsp_keymap(client, bufnr)
+local function keymap(client, bufnr)
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -49,6 +53,7 @@ local function lsp_keymap(client, bufnr)
 
   vim.keymap.set('n', '<leader>l', vim.lsp.buf.format, bufopts)
 
+  -- TODO: this loads telescope
   local telescope_status_ok, telescope = pcall(require, 'telescope.builtin')
   if telescope_status_ok then
     vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
@@ -66,14 +71,21 @@ local function lsp_keymap(client, bufnr)
   end
 end
 
-function M.on_attach(client, bufnr)
-  lsp_hover_highlight(client, bufnr)
-  lsp_keymap(client, bufnr)
+local function setup()
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('lsp_mappings', { }),
+    callback = function(event)
+      local bufnr = event.buf
+      local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-  local opts = require('config.lsp.server')[client.name]
-  if not opts or not (opts.autoformat == false) then
-    lsp_autoformat(client, bufnr)
-  end
+      hover_highlight(client, bufnr)
+      keymap(client, bufnr)
+
+      autoformat(client, bufnr)
+    end,
+  })
 end
 
-return M
+return {
+  setup = setup,
+}
