@@ -37,4 +37,12 @@ return {
 
     opts = {},
   },
+
+  {
+    'j-hui/fidget.nvim',
+
+    event = 'VeryLazy',
+
+    opts = {},
+  }
 }
