@@ -112,7 +112,6 @@ return {
         fields = { 'kind', 'abbr', 'menu' },
         format = function(_, vim_item)
           vim_item.kind = string.format('%s', icons[vim_item.kind])
-          print(vim.inspect(vim_item))
           return vim_item
         end,
       },
