@@ -7,7 +7,7 @@ return {
     build = ':TSUpdate',
 
     opts = {
-      ensure_installed = 'all',
+      ensure_installed = {},
       ignore_install = {},
 
       sync_install = false,
