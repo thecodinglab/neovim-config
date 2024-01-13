@@ -40,3 +40,6 @@ vim.opt.listchars = {
 
 -- set update time for lsp hover
 vim.opt.updatetime = 300
+
+-- extend comment when hitting ENTER in insert mode
+vim.opt.formatoptions:append('r')
