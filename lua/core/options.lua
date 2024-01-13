@@ -5,7 +5,7 @@ vim.opt.spelllang = 'en'
 -- line handling
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 999
 vim.opt.sidescrolloff = 8
 vim.opt.wrap = false
 
