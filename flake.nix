@@ -4,92 +4,82 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-
-    neovim = {
-      url = "github:neovim/neovim/stable?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim }: flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils }:
     let
-      pkgs = import nixpkgs { inherit system; };
+      lib = rec {
+        makeLuaConfig = (pkgs: pkgs.stdenv.mkDerivation {
+          name = "neovim-lua-config";
+          src = ./.;
 
-      deps = with pkgs; [
-        # required to fetch plugins
-        git
+          dontUseCmakeConfigure = true;
 
-        # required to build native libraries for things like treesitter
-        # or nvim-telesceope-fzf-native
-        gcc
-        gnumake
-        cmake
-
-        # required for fuzzy finding in telescope
-        fd
-        silver-searcher
-
-        # gen.nvim
-        llama-cpp
-        ollama
-        curl
-      ];
-
-      extraPathArgs = [ "--suffix" "PATH" ":" (nixpkgs.lib.makeBinPath deps) ];
-
-      configs = pkgs.stdenv.mkDerivation {
-        name = "neovim-configs";
-        src = ./.;
-
-        dontUseCmakeConfigure = true;
-
-        installPhase = ''
-          mkdir -p $out/
-          cp -r init.lua lua $out/
-        '';
-      };
-
-      makeWrappedNeovim = (package: pkgs.wrapNeovim package {
-        # required for github copilot
-        withNodeJs = true;
-
-        extraMakeWrapperArgs = nixpkgs.lib.escapeShellArgs extraPathArgs;
-        configure = {
-          customRC = ''
-            lua package.path = '${configs}/lua/?.lua;${configs}/lua/?/init.lua;' .. package.path
-            luafile ${configs}/init.lua
+          installPhase = ''
+            mkdir -p $out/
+            cp -r init.lua lua $out/
           '';
-        };
-      });
+        });
 
-      neovimPrebuilt = makeWrappedNeovim pkgs.neovim-unwrapped;
-      neovimCustom = makeWrappedNeovim neovim.packages.${system}.neovim;
+        makeDistribution = (pkgs:
+          let
+            deps = [
+              # required to fetch plugins
+              pkgs.git
+
+              # required to build native libraries for things like treesitter
+              # or nvim-telesceope-fzf-native
+              pkgs.gcc
+              pkgs.gnumake
+              pkgs.cmake
+
+              # required for fuzzy finding in telescope
+              pkgs.fd
+              pkgs.silver-searcher
+
+              # gen.nvim
+              pkgs.ollama
+              pkgs.curl
+            ];
+
+            extraPathArgs = [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath deps) ];
+
+            luaConfig = makeLuaConfig pkgs;
+
+            distribution = pkgs.wrapNeovim pkgs.neovim-unwrapped {
+              # required for github copilot
+              withNodeJs = true;
+
+              extraMakeWrapperArgs = pkgs.lib.escapeShellArgs extraPathArgs;
+              configure = {
+                customRC = ''
+                  lua package.path = '${luaConfig}/lua/?.lua;${luaConfig}/lua/?/init.lua;' .. package.path
+                  luafile ${luaConfig}/init.lua
+                '';
+              };
+            };
+          in
+          distribution);
+      };
     in
-    {
-      packages = rec {
-        inherit configs;
-
-        prebuilt = neovimPrebuilt;
-        custom = neovimPrebuilt;
-
-        default = prebuilt;
-      };
-
-      apps = rec {
-        prebuilt = {
-          type = "app";
-          program = "${neovimPrebuilt}/bin/nvim";
+    lib //
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        distribution = lib.makeDistribution pkgs;
+      in
+      {
+        packages = rec {
+          config = lib.makeLuaConfig pkgs;
+          default = distribution;
         };
 
-        custom = {
+        apps.default = {
           type = "app";
-          program = "${neovimCustom}/bin/nvim";
+          program = "${distribution}/bin/nvim";
         };
 
-        default = prebuilt;
-      };
-
-      formatter = pkgs.nixpkgs-fmt;
-    }
-  );
+        formatter = pkgs.nixpkgs-fmt;
+      }
+    );
 }
