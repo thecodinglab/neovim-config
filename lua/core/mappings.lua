@@ -20,6 +20,10 @@ vim.keymap.set('n', '<leader>w', '<cmd>silent write<cr>', opts)
 vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>', opts)
 vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>', opts)
 
+-- move cursor between wrapped lines instead of full lines
+vim.keymap.set('n', 'j', 'gj', opts)
+vim.keymap.set('n', 'k', 'gk', opts)
+
 -- create scratch buffer
 local function create_scratch()
   vim.cmd('enew')
