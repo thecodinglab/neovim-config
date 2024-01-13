@@ -27,13 +27,13 @@ lazy.setup({
   require('core.plugins.cmp'),
 
   require('core.plugins.telescope'),
-
   require('core.plugins.explorer'),
+
+  require('core.plugins.ai'),
   require('core.plugins.comments'),
-  require('core.plugins.copilot'),
-  require('core.plugins.undotree'),
-  require('core.plugins.tmux'),
   require('core.plugins.git'),
+  require('core.plugins.tmux'),
+  require('core.plugins.undotree'),
 }, {
   defaults = { lazy = true, },
 })

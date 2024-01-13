@@ -28,6 +28,11 @@
         # required for fuzzy finding in telescope
         fd
         silver-searcher
+
+        # gen.nvim
+        llama-cpp
+        ollama
+        curl
       ];
 
       extraPathArgs = [ "--suffix" "PATH" ":" (nixpkgs.lib.makeBinPath deps) ];
