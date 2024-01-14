@@ -33,6 +33,7 @@ lazy.setup({
   require('core.plugins.comments'),
   require('core.plugins.git'),
   require('core.plugins.knowledgebase'),
+  require('core.plugins.productivity'),
   require('core.plugins.tmux'),
   require('core.plugins.undotree'),
 }, {
