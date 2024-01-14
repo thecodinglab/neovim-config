@@ -38,6 +38,9 @@ return {
     'ObsidianRename',
     'ObsidianPasteImg',
   },
+  keys = {
+    { '<leader>n', '<cmd>ObsidianSearch<cr>' },
+  },
   events = events,
 
   opts = {
