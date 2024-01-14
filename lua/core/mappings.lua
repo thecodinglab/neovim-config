@@ -2,6 +2,9 @@ vim.g.mapleader = ' '
 
 local opts = { noremap = true, silent = true }
 
+-- map escape to clear highlights in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>noh<cr>')
+
 -- disable vim keyword search
 vim.keymap.set('i', 'C-n', '<nop>', opts)
 
