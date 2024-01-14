@@ -15,9 +15,13 @@ return {
   
   cmd = 'Telescope',
   keys = {
-    { '<leader>f', function(...) require('telescope.builtin').find_files(...) end },
-    { '<leader>F', function(...) require('telescope.builtin').live_grep(...) end },
-    { '<leader><leader>', function(...) require('telescope.builtin').buffers(...) end },
+    { '<leader>f', function() require('telescope.builtin').find_files() end },
+    { '<leader>F', function() 
+      vim.ui.input({prompt = 'grep > '}, function(value)
+        require('telescope.builtin').grep_string({search = value})
+      end)
+    end },
+    { '<leader><leader>', function() require('telescope.builtin').buffers() end },
   },
 
   opts = {
