@@ -26,7 +26,6 @@ return {
 
   opts = {
     defaults = {
-      vimgrep_arguments = { 'ag', '--vimgrep' },
       buffer_previewer_maker = custom_previewer_maker,
     },
     pickers = {

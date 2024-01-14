@@ -35,7 +35,7 @@
 
               # required for fuzzy finding in telescope
               pkgs.fd
-              pkgs.silver-searcher
+              pkgs.ripgrep
 
               # gen.nvim
               pkgs.ollama
