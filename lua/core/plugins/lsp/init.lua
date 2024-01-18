@@ -25,6 +25,7 @@ return {
       require('core.plugins.lsp.mappings').setup()
 
       configure('ltex')
+      configure('texlab')
       configure('gopls', {
         settings = {
           gopls = {
