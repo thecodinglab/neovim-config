@@ -33,7 +33,14 @@ return {
     config = function()
       require('core.plugins.lsp.mappings').setup()
 
-      configure('gopls')
+      configure('ltex')
+      configure('gopls', {
+        settings = {
+          gopls = {
+            ['local'] = 'github.com/thecodinglab', -- TODO: detect current module from `go.mod`
+          },
+        },
+      })
       configure('rnix')
     end,
   },
