@@ -61,13 +61,13 @@ return {
       mapping = {
         -- close/abort
         ['<C-e>'] = { i = cmp.mapping.close() },
-        ['<C-c>'] = { i = cmp.mapping.abort() },
+        ['<C-h>'] = { i = cmp.mapping.abort() },
 
         -- accept
-        ['<CR>'] = { i = cmp.mapping.confirm({ select = false }) },
+        ['<C-l>'] = { i = cmp.mapping.confirm({ select = false }) },
 
         -- item selection
-        ['<C-p>'] = {
+        ['<C-k>'] = {
           i = function()
             if cmp.visible() then
               cmp.select_prev_item()
@@ -76,7 +76,7 @@ return {
             end
           end,
         },
-        ['<C-n>'] = {
+        ['<C-j>'] = {
           i = function()
             if cmp.visible() then
               cmp.select_next_item()
