@@ -31,6 +31,7 @@ lazy.setup({
 
   require('core.plugins.ai'),
   require('core.plugins.comments'),
+  require('core.plugins.dadbod'),
   require('core.plugins.git'),
   require('core.plugins.productivity'),
   require('core.plugins.tmux'),
