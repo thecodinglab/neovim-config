@@ -18,7 +18,10 @@ end
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = { 'j-hui/fidget.nvim' },
+    dependencies = { 
+      'j-hui/fidget.nvim',
+      'folke/neoconf.nvim',
+    },
     event = 'VeryLazy',
 
     config = function()
@@ -36,7 +39,12 @@ return {
       configure('rnix')
     end,
   },
-  
+
+  {
+    'folke/neoconf.nvim',
+    opts = {},
+  },
+
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
