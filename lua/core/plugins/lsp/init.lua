@@ -37,7 +37,19 @@ return {
     config = function()
       require('core.plugins.lsp.mappings').setup()
 
+      -- preinstalled
       configure('ltex')
+      configure('nixd', {
+        settings = {
+          nixd = {
+            formatting = {
+              command = "nixpkgs-fmt",
+            },
+          },
+        },
+      })
+      
+      -- dynamic
       configure('texlab')
       configure('gopls', {
         settings = {
@@ -46,7 +58,6 @@ return {
           },
         },
       })
-      configure('rnix')
     end,
   },
 

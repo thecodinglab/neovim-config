@@ -44,6 +44,11 @@
               # coq_nvim
               pkgs.python3
               pkgs.sqlite
+
+              # preinstalled lsp
+              pkgs.ltex-ls
+              pkgs.nixd
+              pkgs.nixpkgs-fmt
             ];
 
             extraPathArgs = [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath deps) ];
