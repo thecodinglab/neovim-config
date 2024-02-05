@@ -24,7 +24,7 @@ lazy.setup({
   require('core.plugins.treesitter'),
   require('core.plugins.snippets'),
   require('core.plugins.lsp'),
-  require('core.plugins.cmp'),
+  require('core.plugins.coq'),
 
   require('core.plugins.telescope'),
   require('core.plugins.explorer'),

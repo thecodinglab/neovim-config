@@ -40,6 +40,10 @@
               # gen.nvim
               pkgs.ollama
               pkgs.curl
+
+              # coq_nvim
+              pkgs.python3
+              pkgs.sqlite
             ];
 
             extraPathArgs = [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath deps) ];

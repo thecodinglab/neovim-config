@@ -1,11 +1,21 @@
-local capabilities = require('core.plugins.lsp.capabilities')
-
 local function configure(server, extra)
   local lspconfig = require('lspconfig')[server]
 
   local config = {
-    capabilities = capabilities.supported(server),
+    capabilities = {
+      offsetEncoding = 'utf-8',
+    },
   }
+
+  local cmp_status_ok, cmp = pcall(require, 'cmp_nvim_lsp')
+  if cmp_status_ok then
+    config.capabilities = vim.tbl_deep_extend('force', config.capabilities, cmp.default_capabilities())
+  end
+
+  local coq_status_ok, coq = pcall(require, 'coq')
+  if coq_status_ok then
+    config = coq.lsp_ensure_capabilities(config)
+  end
   
   if extra then
     config = vim.tbl_deep_extend('force', config, extra)
