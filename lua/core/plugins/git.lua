@@ -21,6 +21,7 @@ return {
       { '<leader>ng', '<cmd>Git<cr>' },
       { '<leader>ga', '<cmd>Git add %<cr>' },
       { '<leader>gu', '<cmd>Git restore --staged %<cr>' },
+      { '<leader>gp', '<cmd>Git push<cr>' },
     },
   },
 }
