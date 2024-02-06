@@ -6,18 +6,12 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
-
-    {
-      'saadparwaiz1/cmp_luasnip',
-      dependencies = { 'L3MON4D3/LuaSnip' },
-    }
   },
 
   event = 'InsertEnter',
 
   opts = function()
     local cmp = require('cmp')
-    local luasnip = require('luasnip')
     local utils = require('utils')
     local devicons = require('nvim-web-devicons')
 
@@ -52,22 +46,16 @@ return {
     return {
       preselect = 'none',
 
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
-      },
-
       mapping = {
         -- close/abort
         ['<C-e>'] = { i = cmp.mapping.close() },
-        ['<C-h>'] = { i = cmp.mapping.abort() },
+        ['<C-c>'] = { i = cmp.mapping.abort() },
 
         -- accept
-        ['<C-l>'] = { i = cmp.mapping.confirm({ select = false }) },
+        ['<C-y>'] = { i = cmp.mapping.confirm({ select = false }) },
 
         -- item selection
-        ['<C-k>'] = {
+        ['<C-p>'] = {
           i = function()
             if cmp.visible() then
               cmp.select_prev_item()
@@ -76,7 +64,7 @@ return {
             end
           end,
         },
-        ['<C-j>'] = {
+        ['<C-n>'] = {
           i = function()
             if cmp.visible() then
               cmp.select_next_item()
@@ -85,27 +73,6 @@ return {
             end
           end,
         },
-
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expandable() then
-              luasnip.expand()
-            elseif luasnip.locally_jumpable() then
-              luasnip.jump()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
       },
 
       formatting = {
@@ -118,7 +85,6 @@ return {
 
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
         {
           name = 'buffer',
           option = {
