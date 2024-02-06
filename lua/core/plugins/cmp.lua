@@ -6,6 +6,11 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
+
+    {
+      'hrsh7th/cmp-vsnip',
+      dependencies = { 'hrsh7th/vim-vsnip' },
+    },
   },
 
   event = 'InsertEnter',
@@ -46,6 +51,12 @@ return {
     return {
       preselect = 'none',
 
+      snippet = {
+        expand = function(args)
+          vim.fn["vsnip#anonymous"](args.body)
+        end,
+      },
+
       mapping = {
         -- close/abort
         ['<C-e>'] = { i = cmp.mapping.close() },
@@ -85,6 +96,7 @@ return {
 
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = 'vsnip' },
         {
           name = 'buffer',
           option = {
