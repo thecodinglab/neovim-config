@@ -1,10 +1,10 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
-    event = { 'BufReadPre', 'BufNewFile' },
     main = 'nvim-treesitter.configs',
-
     build = ':TSUpdate',
+
+    event = { 'BufReadPre', 'BufNewFile' },
 
     opts = {
       ensure_installed = {},
@@ -16,14 +16,14 @@ return {
       highlight = {
         enable = true,
         disable = function(_, buf)
-          return require('utils.file').is_large_buffer(buf)
+          return require('utils').is_large_buffer(buf)
         end,
       },
 
       indent = {
         enable = true,
         disable = function(_, buf)
-          return require('utils.file').is_large_buffer(buf)
+          return require('utils').is_large_buffer(buf)
         end,
       },
 
@@ -36,16 +36,12 @@ return {
   {
     'nvim-treesitter/nvim-treesitter-context',
     cmd = { 'TSContextEnable', 'TSContextDisable', 'TSContextToggle' },
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-    },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
   },
 
   {
     'nvim-treesitter/playground',
     cmd = 'TSPlaygroundToggle',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-    }
+    dependencies = { 'nvim-treesitter/nvim-treesitter' }
   },
 }

@@ -1,5 +1,7 @@
+local utils = require('utils')
+
 local function custom_previewer_maker(filepath, bufnr, opts)
-  if require('utils.file').is_large_file(filepath) then
+  if utils.is_large_file(filepath) then
     return
   end
 
@@ -15,13 +17,26 @@ return {
   
   cmd = 'Telescope',
   keys = {
-    { '<leader>f', function() require('telescope.builtin').find_files() end },
-    { '<leader>F', function() 
-      vim.ui.input({prompt = 'grep > '}, function(value)
+    { '<leader>fp', function() require('telescope.builtin').resume() end, mode = { 'n', 'v' } },
+    { '<leader>ff', function() require('telescope.builtin').find_files() end, mode = { 'n', 'v' } },
+    { '<leader>fb', function() require('telescope.builtin').buffers() end, mode = { 'n', 'v' } },
+    { '<leader>fh', function() require('telescope.builtin').help_tags() end, mode = { 'n', 'v' } },
+    { '<leader>fd', function() require('telescope.builtin').diagnostics() end, mode = { 'n', 'v' } },
+
+    { '<leader>fg', function() require('telescope.builtin').git_branches() end, mode = { 'n', 'v' } },
+    { '<leader>fc', function() require('telescope.builtin').git_commits() end, mode = { 'n', 'v' } },
+    { '<leader>fC', function() require('telescope.builtin').git_bcommits() end, mode = { 'n', 'v' } },
+
+    { '<leader>fs', function()
+      vim.ui.input({ prompt = 'grep > ' }, function(value)
+        if value == '' then
+          return
+        end
+
         require('telescope.builtin').grep_string({search = value})
       end)
-    end },
-    { '<leader><leader>', function() require('telescope.builtin').buffers() end },
+    end, mode = { 'n' } },
+    { '<leader>fs', function() require('telescope.builtin').grep_string({search = utils.get_visual_selection()}) end, mode = { 'v' } },
   },
 
   opts = {

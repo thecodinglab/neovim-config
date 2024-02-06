@@ -4,7 +4,7 @@ return {
 
   event = 'VeryLazy',
   keys = {
-    { '<C-n>', '<cmd>Oil<cr>' },
+    { '<leader>nf', '<cmd>Oil<cr>' },
   },
 
   opts = {},

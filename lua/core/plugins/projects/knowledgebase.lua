@@ -39,7 +39,8 @@ return {
     'ObsidianPasteImg',
   },
   keys = {
-    { '<leader>n', '<cmd>ObsidianSearch<cr>' },
+    { '<leader>nn', '<cmd>ObsidianQuickSwitch<cr>' },
+    { '<leader>fn', '<cmd>ObsidianSearch<cr>' },
   },
   events = events,
 

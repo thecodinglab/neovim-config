@@ -18,7 +18,7 @@ return {
   opts = function()
     local cmp = require('cmp')
     local luasnip = require('luasnip')
-    local file_utils = require('utils.file')
+    local utils = require('utils')
     local devicons = require('nvim-web-devicons')
 
     local icons = {
@@ -128,7 +128,7 @@ return {
 
               for _, buf in pairs(all_buffers) do
                 -- prevent trying to complete stuff from huge files
-                if not file_utils.is_large_buffer(buf) then
+                if not utils.is_large_buffer(buf) then
                   table.insert(selected_buffers, buf)
                 end
               end

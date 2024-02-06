@@ -3,8 +3,7 @@ return {
     'numToStr/Comment.nvim',
 
     keys = {
-      { vim.g.mapleader .. '/',  mode = 'n' },
-      { vim.g.mapleader .. '/',  mode = 'v' },
+      { '<leader>/',  mode = { 'n', 'v' } },
     },
 
     opts = {
