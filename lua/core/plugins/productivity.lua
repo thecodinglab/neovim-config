@@ -45,6 +45,7 @@ return {
 
   {
     'folke/zen-mode.nvim',
+    dependencies = { 'folke/twilight.nvim' },
 
     cmd = 'ZenMode',
     keys = {
@@ -53,7 +54,7 @@ return {
 
     opts = {
       window = {
-        backdrop = 1,
+        backdrop = 0.8,
         width = 80,
 
         options = {
@@ -81,7 +82,24 @@ return {
           enabled = true,
           font = "14",
         },
+
+        kitty = {
+          enabled = true,
+          font = "+3",
+        },
       },
     },
-  }
+  },
+
+  { 
+    'folke/twilight.nvim',
+
+    cmd = {
+      'Twilight',
+      'TwilightEnable',
+      'TwilightDisable',
+    },
+
+    opts = {},
+  },
 }
