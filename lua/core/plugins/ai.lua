@@ -15,6 +15,7 @@ return {
     build = ':Copilot auth',
 
     cmd = 'Copilot',
+    event = 'VeryLazy',
 
     opts = {
       panel = {
