@@ -88,6 +88,14 @@ return {
           font = "+3",
         },
       },
+
+      on_open = function(win)
+        vim.diagnostic.disable()
+      end,
+
+      on_close = function(win)
+        vim.diagnostic.enable()
+      end,
     },
   },
 
