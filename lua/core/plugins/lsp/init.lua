@@ -58,6 +58,7 @@ return {
           },
         },
       })
+      configure('hls')
     end,
   },
 
