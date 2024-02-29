@@ -3,6 +3,10 @@ local workspaces = {
     name = "knowledgebase",
     path = "~/vaults/knowledgebase",
   },
+  {
+    name = "uni",
+    path = "~/vaults/uni",
+  },
 }
 
 local events = {}

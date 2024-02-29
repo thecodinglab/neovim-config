@@ -30,14 +30,13 @@ lazy.setup({
 
   require('core.plugins.ai'),
   require('core.plugins.comments'),
-  require('core.plugins.dadbod'),
   require('core.plugins.git'),
-  require('core.plugins.productivity'),
+  require('core.plugins.harpoon'),
   require('core.plugins.tmux'),
   require('core.plugins.undotree'),
   
-  require('core.plugins.projects.knowledgebase'),
   require('core.plugins.projects.latex'),
+  require('core.plugins.projects.obsidian'),
 }, {
   defaults = { lazy = true, },
 })
