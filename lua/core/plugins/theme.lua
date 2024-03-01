@@ -1,5 +1,5 @@
 return {
-  'shaunsingh/nord.nvim',
+  'thecodinglab/nord.nvim',
   init = function()
     vim.opt.termguicolors = true;
     vim.cmd.colorscheme('nord');
