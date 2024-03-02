@@ -3,7 +3,7 @@ return {
     'numToStr/Comment.nvim',
 
     keys = {
-      { '<leader>/',  mode = { 'n', 'v' } },
+      { '<leader>/', mode = { 'n', 'v' } },
     },
 
     opts = {

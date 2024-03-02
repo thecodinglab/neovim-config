@@ -17,29 +17,33 @@ return {
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
   },
-  
+
   cmd = 'Telescope',
   keys = {
-    { '<leader>fp', function() require('telescope.builtin').resume() end, mode = { 'n', 'v' } },
-    { '<leader>ff', function() require('telescope.builtin').find_files() end, mode = { 'n', 'v' } },
-    { '<leader>fb', function() require('telescope.builtin').buffers() end, mode = { 'n', 'v' } },
-    { '<leader>fh', function() require('telescope.builtin').help_tags() end, mode = { 'n', 'v' } },
-    { '<leader>fd', function() require('telescope.builtin').diagnostics() end, mode = { 'n', 'v' } },
+    { '<leader>fp', function() require('telescope.builtin').resume() end,       mode = { 'n', 'v' } },
+    { '<leader>ff', function() require('telescope.builtin').find_files() end,   mode = { 'n', 'v' } },
+    { '<leader>fb', function() require('telescope.builtin').buffers() end,      mode = { 'n', 'v' } },
+    { '<leader>fh', function() require('telescope.builtin').help_tags() end,    mode = { 'n', 'v' } },
+    { '<leader>fd', function() require('telescope.builtin').diagnostics() end,  mode = { 'n', 'v' } },
 
     { '<leader>fg', function() require('telescope.builtin').git_branches() end, mode = { 'n', 'v' } },
-    { '<leader>fc', function() require('telescope.builtin').git_commits() end, mode = { 'n', 'v' } },
+    { '<leader>fc', function() require('telescope.builtin').git_commits() end,  mode = { 'n', 'v' } },
     { '<leader>fC', function() require('telescope.builtin').git_bcommits() end, mode = { 'n', 'v' } },
 
-    { '<leader>fs', function()
-      vim.ui.input({ prompt = 'grep > ' }, function(value)
-        if value == '' then
-          return
-        end
+    {
+      '<leader>fs',
+      function()
+        vim.ui.input({ prompt = 'grep > ' }, function(value)
+          if value == '' then
+            return
+          end
 
-        require('telescope.builtin').grep_string({search = value})
-      end)
-    end, mode = { 'n' } },
-    { '<leader>fs', function() require('telescope.builtin').grep_string({search = utils.get_visual_selection()}) end, mode = { 'v' } },
+          require('telescope.builtin').grep_string({ search = value })
+        end)
+      end,
+      mode = { 'n' }
+    },
+    { '<leader>fs', function() require('telescope.builtin').grep_string({ search = utils.get_visual_selection() }) end, mode = { 'v' } },
   },
 
   opts = {
@@ -60,7 +64,7 @@ return {
       },
     },
   },
-  
+
   config = function(_, opts)
     local telescope = require('telescope')
     telescope.setup(opts)

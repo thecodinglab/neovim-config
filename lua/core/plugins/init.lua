@@ -34,7 +34,7 @@ lazy.setup({
   require('core.plugins.harpoon'),
   require('core.plugins.tmux'),
   require('core.plugins.undotree'),
-  
+
   require('core.plugins.projects.latex'),
   require('core.plugins.projects.obsidian'),
 }, {

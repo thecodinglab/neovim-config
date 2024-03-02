@@ -27,7 +27,7 @@ local function autoformat(client, bufnr)
 
   -- disable autoformatting for typescript as it takes forever and slows down
   -- my development workflow
-  if client.name == 'tsserver' then 
+  if client.name == 'tsserver' then
     return
   end
 
@@ -73,7 +73,7 @@ end
 
 local function setup()
   vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('lsp_mappings', { }),
+    group = vim.api.nvim_create_augroup('lsp_mappings', {}),
     callback = function(event)
       local bufnr = event.buf
       local client = vim.lsp.get_client_by_id(event.data.client_id)

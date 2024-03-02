@@ -12,8 +12,8 @@ local workspaces = {
 local events = {}
 for i, workspace in pairs(workspaces) do
   local dir = vim.fn.expand(workspace.path)
-  events[2*i+0] = 'BufReadPre ' .. dir .. '**.md'
-  events[2*i+1] = 'BufNewFile ' .. dir .. '**.md'
+  events[2 * i + 0] = 'BufReadPre ' .. dir .. '**.md'
+  events[2 * i + 1] = 'BufNewFile ' .. dir .. '**.md'
 end
 
 return {
@@ -24,7 +24,7 @@ return {
   },
 
   -- from https://github.com/epwalsh/obsidian.nvim/blob/86caccdac82e78a268e25fab901f47bc36ccd33c/lua/obsidian/commands/init.lua#L6-L21
-  cmd = { 
+  cmd = {
     'ObsidianCheck',
     'ObsidianToday',
     'ObsidianYesterday',
@@ -71,12 +71,12 @@ return {
 
     follow_url_func = function(url)
       if vim.fn.executable('xdg-open') then
-        vim.fn.jobstart({'xdg-open', url})
+        vim.fn.jobstart({ 'xdg-open', url })
         return
       end
 
       if vim.fn.executable('open') then
-        vim.fn.jobstart({'open', url})
+        vim.fn.jobstart({ 'open', url })
         return
       end
 
