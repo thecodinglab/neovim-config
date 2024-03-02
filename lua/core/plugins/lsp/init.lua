@@ -16,7 +16,7 @@ local function configure(server, extra)
   if coq_status_ok then
     config = coq.lsp_ensure_capabilities(config)
   end
-  
+
   if extra then
     config = vim.tbl_deep_extend('force', config, extra)
   end
@@ -28,9 +28,10 @@ end
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = { 
+    dependencies = {
       'j-hui/fidget.nvim',
       'folke/neoconf.nvim',
+      'folke/neodev.nvim',
     },
     event = 'VeryLazy',
 
@@ -39,6 +40,7 @@ return {
 
       -- preinstalled
       configure('ltex')
+      configure('lua_ls')
       configure('nixd', {
         settings = {
           nixd = {
@@ -48,7 +50,7 @@ return {
           },
         },
       })
-      
+
       -- dynamic
       configure('texlab')
       configure('gopls', {
@@ -62,10 +64,8 @@ return {
     end,
   },
 
-  {
-    'folke/neoconf.nvim',
-    opts = {},
-  },
+  { 'folke/neoconf.nvim', opts = {} },
+  { 'folke/neodev.nvim',  opts = {} },
 
   {
     'folke/trouble.nvim',

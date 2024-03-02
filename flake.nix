@@ -47,6 +47,7 @@
 
               # preinstalled lsp
               pkgs.ltex-ls
+              pkgs.lua-language-server
               pkgs.nixd
               pkgs.nixpkgs-fmt
             ];
