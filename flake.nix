@@ -74,7 +74,18 @@
     lib //
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+          inherit system;
+
+          overlays = [
+            (final: prev: {
+              neovim-unwrapped = prev.neovim-unwrapped.override {
+                treesitter-parsers = { };
+              };
+            })
+          ];
+        };
+
         distribution = lib.makeDistribution pkgs;
       in
       {
