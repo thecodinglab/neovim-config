@@ -15,17 +15,19 @@ return {
     build = ':Copilot auth',
 
     cmd = 'Copilot',
-    event = 'VeryLazy',
+    event = 'InsertEnter',
 
     opts = {
       panel = {
+        enabled = true,
+        auto_refresh = true,
         layout = {
-          position = 'right',
+          position = 'bottom',
           ratio = 0.3,
         },
       },
       suggestion = {
-        enabled = true,
+        enabled = false,
         auto_trigger = true,
         keymap = {
           accept = '<C-a>',

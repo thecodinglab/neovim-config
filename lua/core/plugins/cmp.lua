@@ -12,6 +12,7 @@ return {
       dependencies = { 'L3MON4D3/LuaSnip' },
     },
 
+    { 'zbirenbaum/copilot-cmp', opts = {} },
     'micangl/cmp-vimtex',
   },
 
@@ -48,6 +49,7 @@ return {
       Event         = '',
       Operator      = '',
       TypeParameter = '',
+      Copilot       = '',
     };
 
     return {
@@ -105,6 +107,7 @@ return {
       },
 
       sources = cmp.config.sources({
+        { name = 'copilot' },
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         {
