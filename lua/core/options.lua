@@ -5,6 +5,7 @@ vim.opt.spelllang = 'en'
 -- line handling
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
 vim.opt.scrolloff = 999
 vim.opt.sidescrolloff = 8
 vim.opt.wrap = false
@@ -27,6 +28,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- other
+vim.opt.showmode = false
 vim.opt.termguicolors = true
 vim.opt.conceallevel = 2
 

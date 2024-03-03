@@ -61,8 +61,8 @@ local function keymap(client, bufnr)
     vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
     vim.keymap.set('n', 'go', telescope.lsp_type_definitions, bufopts)
 
-    vim.keymap.set('n', '<leader>s', telescope.lsp_document_symbols, bufopts)
-    vim.keymap.set('n', '<leader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
+    vim.keymap.set('n', '<leader>ds', telescope.lsp_document_symbols, bufopts)
+    vim.keymap.set('n', '<leader>ws', telescope.lsp_dynamic_workspace_symbols, bufopts)
   else
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)

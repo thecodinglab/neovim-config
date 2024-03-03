@@ -1,4 +1,5 @@
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 local opts = { noremap = true, silent = true }
 
@@ -15,3 +16,11 @@ vim.keymap.set('n', '<leader>p', '"+p', opts)
 
 -- save
 vim.keymap.set('n', '<leader>w', '<cmd>silent write<cr>', opts)
+
+-- highlight when yanking
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
