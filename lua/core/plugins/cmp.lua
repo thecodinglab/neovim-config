@@ -59,13 +59,17 @@ return {
         end,
       },
 
+      experimental = {
+        ghost_text = true,
+      },
+
       mapping = {
         -- close/abort
         ['<C-e>'] = { i = cmp.mapping.close() },
         ['<C-c>'] = { i = cmp.mapping.abort() },
 
         -- accept
-        ['<C-y>'] = { i = cmp.mapping.confirm({ select = false }) },
+        ['<C-y>'] = { i = cmp.mapping.confirm({ select = true }) },
 
         -- item selection
         ['<C-p>'] = {
