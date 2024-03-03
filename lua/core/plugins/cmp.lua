@@ -8,8 +8,8 @@ return {
     'hrsh7th/cmp-path',
 
     {
-      'hrsh7th/cmp-vsnip',
-      dependencies = { 'hrsh7th/vim-vsnip' },
+      'saadparwaiz1/cmp_luasnip',
+      dependencies = { 'L3MON4D3/LuaSnip' },
     },
   },
 
@@ -17,6 +17,7 @@ return {
 
   opts = function()
     local cmp = require('cmp')
+    local luasnip = require('luasnip')
     local utils = require('utils')
 
     local icons = {
@@ -52,7 +53,7 @@ return {
 
       snippet = {
         expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body)
+          require('luasnip').lsp_expand(args.body)
         end,
       },
 
@@ -69,6 +70,8 @@ return {
           i = function()
             if cmp.visible() then
               cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
             else
               cmp.complete()
             end
@@ -78,6 +81,8 @@ return {
           i = function()
             if cmp.visible() then
               cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
             else
               cmp.complete()
             end
@@ -95,7 +100,7 @@ return {
 
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'vsnip' },
+        { name = 'luasnip' },
         {
           name = 'buffer',
           option = {
