@@ -2,9 +2,7 @@ local function configure(server, extra)
   local lspconfig = require('lspconfig')[server]
 
   local config = {
-    capabilities = {
-      offsetEncoding = 'utf-8',
-    },
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
   }
 
   local cmp_status_ok, cmp = pcall(require, 'cmp_nvim_lsp')
