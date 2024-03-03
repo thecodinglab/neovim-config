@@ -28,7 +28,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- other
 vim.opt.termguicolors = true
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 2
 
 vim.opt.mouse = ''
 vim.opt.shortmess = 'IF'
