@@ -11,6 +11,8 @@ return {
       'saadparwaiz1/cmp_luasnip',
       dependencies = { 'L3MON4D3/LuaSnip' },
     },
+
+    'micangl/cmp-vimtex',
   },
 
   event = 'InsertEnter',
@@ -122,5 +124,16 @@ return {
         { name = 'path' },
       }),
     }
+  end,
+
+  config = function(_, opts)
+    local cmp = require('cmp')
+
+    cmp.setup(opts)
+    cmp.setup.filetype("tex", {
+      sources = {
+        { name = 'vimtex' },
+      },
+    })
   end,
 }
