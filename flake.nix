@@ -4,9 +4,17 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
+    # NOTE: the current version of nixd (1.2.3) uses an old version of nix,
+    # which is vulnerable to CVE-2024-27297. This is a temporary workaround
+    # until nixd is updated in the nixpkgs repository.
+    nixd-nightly = {
+      url = "github:nix-community/nixd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, nixd-nightly }:
     let
       lib = rec {
         makeLuaConfig = (pkgs: pkgs.stdenv.mkDerivation {
@@ -83,6 +91,11 @@
               neovim-unwrapped = prev.neovim-unwrapped.override {
                 treesitter-parsers = { };
               };
+
+              nixd =
+                (if prev.lib.getVersion prev.nixd == "1.2.3"
+                then nixd-nightly.packages.${system}.nixd
+                else prev.nixd);
             })
           ];
         };
