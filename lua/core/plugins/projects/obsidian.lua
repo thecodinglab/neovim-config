@@ -1,19 +1,15 @@
 local workspaces = {
   {
-    name = "knowledgebase",
-    path = "~/vaults/knowledgebase",
-  },
-  {
-    name = "uni",
-    path = "~/vaults/uni",
-  },
+    name = "singularity",
+    path = "~/vaults/singularity",
+  }
 }
 
 local events = {}
-for i, workspace in pairs(workspaces) do
+for _, workspace in pairs(workspaces) do
   local dir = vim.fn.expand(workspace.path)
-  events[2 * i + 0] = 'BufReadPre ' .. dir .. '**.md'
-  events[2 * i + 1] = 'BufNewFile ' .. dir .. '**.md'
+  table.insert(events, 'BufReadPre ' .. dir .. '/**.md')
+  table.insert(events, 'BufNewFile ' .. dir .. '/**.md')
 end
 
 return {
@@ -43,19 +39,26 @@ return {
     'ObsidianPasteImg',
   },
   keys = {
+    { '<leader>t',  '<cmd>ObsidianToday<cr>' },
     { '<leader>nn', '<cmd>ObsidianQuickSwitch<cr>' },
     { '<leader>fn', '<cmd>ObsidianSearch<cr>' },
   },
-  events = events,
+  event = events,
 
   opts = {
     workspaces = workspaces,
 
-    notes_subdir = "notes",
+    notes_subdir = "02 - Fleeting/",
     daily_notes = {
-      folder = "notes/dailies",
+      folder = "04 - Daily/",
       date_format = "%Y-%m-%d",
     },
+    templates = {
+      subdir = "99 - Meta/00 - Templates/",
+      date_format = "%Y-%m-%d",
+      time_format = "%H:%M",
+    },
+
 
     note_id_func = function(title)
       local suffix = ""
@@ -66,7 +69,7 @@ return {
           suffix = suffix .. string.char(math.random(65, 90))
         end
       end
-      return tostring(os.time()) .. "-" .. suffix
+      return os.date('%Y%m%d%H%M') .. "-" .. suffix
     end,
 
     follow_url_func = function(url)
