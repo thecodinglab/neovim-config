@@ -29,7 +29,6 @@ lazy.setup({
   require('core.plugins.telescope'),
   require('core.plugins.explorer'),
 
-  require('core.plugins.ai'),
   require('core.plugins.comments'),
   require('core.plugins.git'),
   require('core.plugins.harpoon'),
