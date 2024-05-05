@@ -25,12 +25,6 @@ local function autoformat(client, bufnr)
     return
   end
 
-  -- disable autoformatting for typescript as it takes forever and slows down
-  -- my development workflow
-  if client.name == 'tsserver' then
-    return
-  end
-
   vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
     buffer = bufnr,
     group = vim.api.nvim_create_augroup('lsp_autoformat', { clear = false }),
@@ -77,6 +71,19 @@ local function setup()
     callback = function(event)
       local bufnr = event.buf
       local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+      -- disable formatting using tsserver as it takes forever and slows down
+      -- my development workflow
+      if client.name == 'tsserver' then
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end
+
+      -- enable formatting using eslint
+      if client.name == 'eslint' then
+        client.server_capabilities.documentFormattingProvider = true
+        client.server_capabilities.documentRangeFormattingProvider = true
+      end
 
       hover_highlight(client, bufnr)
       keymap(client, bufnr)

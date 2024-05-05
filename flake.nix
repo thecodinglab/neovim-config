@@ -50,6 +50,9 @@
               pkgs.lua-language-server
               pkgs.nixd
               pkgs.nixpkgs-fmt
+
+              pkgs.nodePackages.typescript-language-server
+              pkgs.vscode-langservers-extracted
             ];
 
             extraPathArgs = [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath deps) ];

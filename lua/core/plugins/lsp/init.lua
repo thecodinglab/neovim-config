@@ -49,6 +49,9 @@ return {
         },
       })
 
+      configure('tsserver')
+      configure('eslint')
+
       -- dynamic
       configure('texlab')
       configure('gopls', {
