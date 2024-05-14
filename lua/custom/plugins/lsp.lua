@@ -34,8 +34,6 @@ return {
     event = 'VeryLazy',
 
     config = function()
-      require('core.plugins.lsp.mappings').setup()
-
       -- preinstalled
       configure('ltex')
       configure('lua_ls')
@@ -62,6 +60,8 @@ return {
         },
       })
       configure('hls')
+      configure('rust_analyzer')
+      configure('pyright')
     end,
   },
 

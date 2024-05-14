@@ -1,3 +1,38 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+local opts = { noremap = true, silent = true }
+
+-- map escape to clear highlights in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>noh<cr>', opts)
+
+-- indent while staying in visual mode
+vim.keymap.set('v', '<', '<gv', opts)
+vim.keymap.set('v', '>', '>gv', opts)
+
+-- clipboard
+vim.keymap.set('v', '<leader>y', '"+y', opts)
+vim.keymap.set('n', '<leader>p', '"+p', opts)
+
+-- save
+vim.keymap.set('n', '<leader>w', '<cmd>silent write<cr>', opts)
+
+-- diagnostics
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+-- highlight when yanking
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
+-- lsp
+
 local function hover_highlight(client, bufnr)
   if not client.server_capabilities.documentHighlightProvider then
     return
@@ -65,34 +100,28 @@ local function keymap(client, bufnr)
   end
 end
 
-local function setup()
-  vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('lsp_mappings', {}),
-    callback = function(event)
-      local bufnr = event.buf
-      local client = vim.lsp.get_client_by_id(event.data.client_id)
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp_mappings', {}),
+  callback = function(event)
+    local bufnr = event.buf
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-      -- disable formatting using tsserver as it takes forever and slows down
-      -- my development workflow
-      if client.name == 'tsserver' then
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-      end
+    -- disable formatting using tsserver as it takes forever and slows down
+    -- my development workflow
+    if client.name == 'tsserver' then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
 
-      -- enable formatting using eslint
-      if client.name == 'eslint' then
-        client.server_capabilities.documentFormattingProvider = true
-        client.server_capabilities.documentRangeFormattingProvider = true
-      end
+    -- enable formatting using eslint
+    if client.name == 'eslint' then
+      client.server_capabilities.documentFormattingProvider = true
+      client.server_capabilities.documentRangeFormattingProvider = true
+    end
 
-      hover_highlight(client, bufnr)
-      keymap(client, bufnr)
+    hover_highlight(client, bufnr)
+    keymap(client, bufnr)
 
-      autoformat(client, bufnr)
-    end,
-  })
-end
-
-return {
-  setup = setup,
-}
+    autoformat(client, bufnr)
+  end,
+})

@@ -1,4 +1,4 @@
-local utils = require('utils')
+local utils = require('custom.utils')
 
 local function custom_previewer_maker(filepath, bufnr, opts)
   if utils.is_large_file(filepath) then
@@ -10,6 +10,8 @@ end
 
 return {
   'nvim-telescope/telescope.nvim',
+  -- commit = '29fddf76bc3b75224f8a974f15139627ffb435d5',
+
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
     {

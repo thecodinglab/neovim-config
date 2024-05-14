@@ -4,9 +4,18 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
+    neovim = {
+      url = "github:neovim/neovim?dir=contrib";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, neovim }:
     let
       lib = rec {
         makeLuaConfig = (pkgs: pkgs.stdenv.mkDerivation {
@@ -16,8 +25,7 @@
           dontUseCmakeConfigure = true;
 
           installPhase = ''
-            mkdir -p $out/
-            cp -r init.lua lua $out/
+            cp -r . $out/
           '';
         });
 
@@ -37,14 +45,6 @@
               pkgs.fd
               pkgs.ripgrep
 
-              # gen.nvim
-              pkgs.ollama
-              pkgs.curl
-
-              # coq_nvim
-              pkgs.python3
-              pkgs.sqlite
-
               # preinstalled lsp
               pkgs.ltex-ls
               pkgs.lua-language-server
@@ -56,19 +56,18 @@
             ];
 
             extraPathArgs = [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath deps) ];
-
             luaConfig = makeLuaConfig pkgs;
 
-            distribution = pkgs.wrapNeovim pkgs.neovim-unwrapped {
-              # required for github copilot
-              withNodeJs = true;
+            distribution = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
+              wrapRc = false;
+              withPython3 = false;
 
-              extraMakeWrapperArgs = pkgs.lib.escapeShellArgs extraPathArgs;
-              configure = {
-                customRC = ''
-                  lua package.path = '${luaConfig}/lua/?.lua;${luaConfig}/lua/?/init.lua;' .. package.path
-                  luafile ${luaConfig}/init.lua
-                '';
+              wrapperArgs = extraPathArgs;
+              packpathDirs = {
+                myNeovimPackages = {
+                  start = [ luaConfig ];
+                  opt = [ ];
+                };
               };
             };
           in
@@ -82,6 +81,7 @@
           inherit system;
 
           overlays = [
+            neovim.overlay
             (final: prev: {
               neovim-unwrapped = prev.neovim-unwrapped.override {
                 treesitter-parsers = { };

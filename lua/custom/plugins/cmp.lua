@@ -21,7 +21,7 @@ return {
   opts = function()
     local cmp = require('cmp')
     local luasnip = require('luasnip')
-    local utils = require('utils')
+    local utils = require('custom.utils')
 
     local icons = {
       Text          = '󰦨',

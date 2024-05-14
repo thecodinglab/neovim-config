@@ -20,14 +20,14 @@ return {
             return true
           end
 
-          return require('utils').is_large_buffer(buf)
+          return require('custom.utils').is_large_buffer(buf)
         end,
       },
 
       indent = {
         enable = true,
         disable = function(_, buf)
-          return require('utils').is_large_buffer(buf)
+          return require('custom.utils').is_large_buffer(buf)
         end,
       },
 
