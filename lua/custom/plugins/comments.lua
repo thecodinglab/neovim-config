@@ -1,41 +1,21 @@
 return {
-  {
-    'numToStr/Comment.nvim',
+  'folke/todo-comments.nvim',
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
 
-    keys = {
-      { '<leader>/', mode = { 'n', 'v' } },
+  opts = {
+    highlight = {
+      before = '',
+      keyword = 'bg',
+      after = 'fg',
+      pattern = [[.*<(KEYWORDS)(\([^\)]*\))?:]],
+      comments_only = true,
     },
-
-    opts = {
-      toggler = {
-        line = '<leader>/',
-      },
-      opleader = {
-        line = '<leader>/',
-      },
-      extra = {},
-    },
-  },
-
-  {
-    'folke/todo-comments.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
-
-    opts = {
-      highlight = {
-        before = '',
-        keyword = 'bg',
-        after = 'fg',
-        pattern = [[.*<(KEYWORDS)(\([^\)]*\))?:]],
-        comments_only = true,
-      },
-      search = {
-        command = 'ag',
-        args = { '--vimgrep' },
-        pattern = [[(KEYWORDS)(\(\w+\))?:]]
-        -- pattern = '\\b(KEYWORDS)(\\(\\w+\\))?:',
-      },
+    search = {
+      command = 'ag',
+      args = { '--vimgrep' },
+      pattern = [[(KEYWORDS)(\(\w+\))?:]]
+      -- pattern = '\\b(KEYWORDS)(\\(\\w+\\))?:',
     },
   },
 }

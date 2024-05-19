@@ -4,7 +4,7 @@ return {
     main = 'nvim-treesitter.configs',
     build = ':TSUpdate',
 
-    event = { 'BufReadPre', 'BufNewFile' },
+    lazy = false,
 
     opts = {
       ensure_installed = {},
@@ -16,10 +16,6 @@ return {
       highlight = {
         enable = true,
         disable = function(lang, buf)
-          if lang == 'latex' then
-            return true
-          end
-
           return require('custom.utils').is_large_buffer(buf)
         end,
       },

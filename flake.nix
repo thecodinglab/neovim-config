@@ -6,7 +6,7 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     neovim = {
-      url = "github:neovim/neovim?dir=contrib";
+      url = "github:neovim/neovim/release-0.10?dir=contrib";
 
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -18,7 +18,7 @@
   outputs = { self, nixpkgs, flake-utils, neovim }:
     let
       lib = rec {
-        makeLuaConfig = (pkgs: pkgs.stdenv.mkDerivation {
+        makePlugin = (pkgs: pkgs.stdenv.mkDerivation {
           name = "neovim-lua-config";
           src = ./.;
 
@@ -55,23 +55,23 @@
               pkgs.vscode-langservers-extracted
             ];
 
-            extraPathArgs = [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath deps) ];
-            luaConfig = makeLuaConfig pkgs;
+            extraWrapperArgs = [
+              "--suffix"
+              "PATH"
+              ":"
+              (pkgs.lib.makeBinPath deps)
+            ];
 
-            distribution = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
-              wrapRc = false;
-              withPython3 = false;
-
-              wrapperArgs = extraPathArgs;
-              packpathDirs = {
-                myNeovimPackages = {
-                  start = [ luaConfig ];
-                  opt = [ ];
-                };
-              };
+            config = pkgs.neovimUtils.makeNeovimConfig {
+              plugins = [
+                { plugin = makePlugin pkgs; optional = false; }
+              ];
             };
           in
-          distribution);
+          pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (config // {
+            wrapperArgs = pkgs.lib.escapeShellArgs
+              (config.wrapperArgs ++ extraWrapperArgs);
+          }));
       };
     in
     lib //
@@ -81,23 +81,19 @@
           inherit system;
 
           overlays = [
-            neovim.overlay
             (final: prev: {
-              neovim-unwrapped = prev.neovim-unwrapped.override {
-                treesitter-parsers = { };
-              };
+              neovim-unwrapped = neovim.packages.${prev.system}.default.overrideAttrs
+                (final: prev: {
+                  treesitter-parsers = { };
+                });
             })
-          ];
-
-          config.permittedInsecurePackages = [
-            "nix-2.16.2"
           ];
         };
 
         distribution = lib.makeDistribution pkgs;
       in
       {
-        packages = rec {
+        packages = {
           config = lib.makeLuaConfig pkgs;
           default = distribution;
         };
