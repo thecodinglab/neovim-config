@@ -104,7 +104,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp_mappings', {}),
   callback = function(event)
     local bufnr = event.buf
+
     local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if not client then
+      -- this should never happen though just to be sure
+      return
+    end
 
     -- disable formatting using tsserver as it takes forever and slows down
     -- my development workflow

@@ -31,7 +31,6 @@ lazy.setup({
 
   require('custom.plugins.comments'),
   require('custom.plugins.git'),
-  require('custom.plugins.harpoon'),
   require('custom.plugins.mini'),
   require('custom.plugins.tmux'),
   require('custom.plugins.undotree'),
@@ -40,4 +39,9 @@ lazy.setup({
   require('custom.plugins.projects.obsidian'),
 }, {
   defaults = { lazy = true, },
+  performance = {
+    rtp = {
+      reset = false,
+    },
+  },
 })

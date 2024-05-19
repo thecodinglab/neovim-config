@@ -26,10 +26,6 @@ return {
           return require('custom.utils').is_large_buffer(buf)
         end,
       },
-
-      playground = {
-        enable = true,
-      },
     },
   },
 
@@ -37,11 +33,5 @@ return {
     'nvim-treesitter/nvim-treesitter-context',
     cmd = { 'TSContextEnable', 'TSContextDisable', 'TSContextToggle' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  },
-
-  {
-    'nvim-treesitter/playground',
-    cmd = 'TSPlaygroundToggle',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' }
   },
 }

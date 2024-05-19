@@ -16,65 +16,6 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, neovim }:
-    let
-      lib = rec {
-        makePlugin = (pkgs: pkgs.stdenv.mkDerivation {
-          name = "neovim-lua-config";
-          src = ./.;
-
-          dontUseCmakeConfigure = true;
-
-          installPhase = ''
-            cp -r . $out/
-          '';
-        });
-
-        makeDistribution = (pkgs:
-          let
-            deps = [
-              # required to fetch plugins
-              pkgs.git
-
-              # required to build native libraries for things like treesitter
-              # or nvim-telesceope-fzf-native
-              pkgs.gcc
-              pkgs.gnumake
-              pkgs.cmake
-
-              # required for fuzzy finding in telescope
-              pkgs.fd
-              pkgs.ripgrep
-
-              # preinstalled lsp
-              pkgs.ltex-ls
-              pkgs.lua-language-server
-              pkgs.nixd
-              pkgs.nixpkgs-fmt
-
-              pkgs.nodePackages.typescript-language-server
-              pkgs.vscode-langservers-extracted
-            ];
-
-            extraWrapperArgs = [
-              "--suffix"
-              "PATH"
-              ":"
-              (pkgs.lib.makeBinPath deps)
-            ];
-
-            config = pkgs.neovimUtils.makeNeovimConfig {
-              plugins = [
-                { plugin = makePlugin pkgs; optional = false; }
-              ];
-            };
-          in
-          pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (config // {
-            wrapperArgs = pkgs.lib.escapeShellArgs
-              (config.wrapperArgs ++ extraWrapperArgs);
-          }));
-      };
-    in
-    lib //
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -90,11 +31,25 @@
           ];
         };
 
-        distribution = lib.makeDistribution pkgs;
+        config = pkgs.callPackage ./nix/config.nix { };
+
+        distribution = pkgs.callPackage ./nix/distribution.nix {
+          custom-config = config;
+          preinstalled-lsp = [
+            pkgs.ltex-ls
+            pkgs.lua-language-server
+            pkgs.nixd
+            pkgs.nixpkgs-fmt
+            pkgs.gopls
+
+            pkgs.nodePackages.typescript-language-server
+            pkgs.vscode-langservers-extracted
+          ];
+        };
       in
       {
         packages = {
-          config = lib.makeLuaConfig pkgs;
+          config = config;
           default = distribution;
         };
 

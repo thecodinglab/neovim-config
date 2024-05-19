@@ -1,4 +1,4 @@
-local function configure(server, extra)
+local function configure_lsp_server(server, extra)
   local lspconfig = require('lspconfig')[server]
 
   local config = {
@@ -34,10 +34,9 @@ return {
     event = 'VeryLazy',
 
     config = function()
-      -- preinstalled
-      configure('ltex')
-      configure('lua_ls')
-      configure('nixd', {
+      configure_lsp_server('ltex')
+      configure_lsp_server('lua_ls')
+      configure_lsp_server('nixd', {
         settings = {
           nixd = {
             formatting = {
@@ -47,21 +46,21 @@ return {
         },
       })
 
-      configure('tsserver')
-      configure('eslint')
-
-      -- dynamic
-      configure('texlab')
-      configure('gopls', {
+      configure_lsp_server('gopls', {
         settings = {
           gopls = {
             ['local'] = 'github.com/thecodinglab', -- TODO: detect current module from `go.mod`
           },
         },
       })
-      configure('hls')
-      configure('rust_analyzer')
-      configure('pyright')
+
+      configure_lsp_server('tsserver')
+      configure_lsp_server('eslint')
+
+      configure_lsp_server('hls')
+      configure_lsp_server('pyright')
+      configure_lsp_server('rust_analyzer')
+      configure_lsp_server('texlab')
     end,
   },
 

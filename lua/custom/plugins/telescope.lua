@@ -10,14 +10,10 @@ end
 
 return {
   'nvim-telescope/telescope.nvim',
-  -- commit = '29fddf76bc3b75224f8a974f15139627ffb435d5',
 
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
-    {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      build = 'make',
-    },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'nvim-telescope/telescope-ui-select.nvim' },
   },
 
