@@ -35,6 +35,8 @@ lazy.setup({
   require('custom.plugins.tmux'),
   require('custom.plugins.undotree'),
 
+  require('custom.plugins.hardtime'),
+
   require('custom.plugins.projects.latex'),
   require('custom.plugins.projects.obsidian'),
 }, {
