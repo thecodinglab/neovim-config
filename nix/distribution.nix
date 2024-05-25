@@ -34,6 +34,9 @@ let
   extraWrapperArgs = [ "--suffix" "PATH" ":" (lib.makeBinPath deps) ];
 
   res = neovimUtils.makeNeovimConfig {
+    withPython3 = false;
+    withRuby = false;
+
     plugins = [
       custom-config
     ];
