@@ -33,6 +33,7 @@ lazy.setup({
   require('custom.plugins.git'),
   require('custom.plugins.mini'),
   require('custom.plugins.tmux'),
+  require('custom.plugins.ufo'),
   require('custom.plugins.undotree'),
 
   require('custom.plugins.hardtime'),

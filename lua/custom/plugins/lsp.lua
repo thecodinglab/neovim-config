@@ -5,6 +5,11 @@ local function configure_lsp_server(server, extra)
     capabilities = vim.lsp.protocol.make_client_capabilities(),
   }
 
+  config.capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+  }
+
   local cmp_status_ok, cmp = pcall(require, 'cmp_nvim_lsp')
   if cmp_status_ok then
     config.capabilities = vim.tbl_deep_extend('force', config.capabilities, cmp.default_capabilities())
