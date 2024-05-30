@@ -2,6 +2,7 @@ return {
   'hrsh7th/nvim-cmp',
   dependencies = {
     'nvim-tree/nvim-web-devicons',
+    'onsails/lspkind.nvim',
 
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
@@ -12,7 +13,6 @@ return {
       dependencies = { 'L3MON4D3/LuaSnip' },
     },
 
-    { 'zbirenbaum/copilot-cmp', opts = {} },
     'micangl/cmp-vimtex',
   },
 
@@ -97,14 +97,17 @@ return {
 
       formatting = {
         fields = { 'kind', 'abbr', 'menu' },
-        format = function(_, vim_item)
-          vim_item.kind = string.format('%s', icons[vim_item.kind])
-          return vim_item
+        format = function(entry, vim_item)
+          local kind = require('lspkind').cmp_format({ mode = 'symbol_text', maxwidth = 50 })(entry, vim_item)
+          local strings = vim.split(kind.kind, '%s', { trimempty = true })
+          kind.kind = ' ' .. (strings[1] or '') .. ' '
+          kind.menu = '    (' .. (strings[2] or '') .. ')'
+
+          return kind
         end,
       },
 
       sources = cmp.config.sources({
-        { name = 'copilot' },
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         {
@@ -134,7 +137,7 @@ return {
     local cmp = require('cmp')
 
     cmp.setup(opts)
-    cmp.setup.filetype("tex", {
+    cmp.setup.filetype('tex', {
       sources = {
         { name = 'vimtex' },
       },
