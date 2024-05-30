@@ -1,7 +1,7 @@
 local workspaces = {
   {
-    name = "singularity",
-    path = "~/vaults/singularity",
+    name = 'singularity',
+    path = '~/vaults/singularity',
   }
 }
 
@@ -48,28 +48,28 @@ return {
   opts = {
     workspaces = workspaces,
 
-    notes_subdir = "02 - Fleeting/",
+    notes_subdir = '02 - Fleeting/',
     daily_notes = {
-      folder = "04 - Daily/",
-      date_format = "%Y-%m-%d",
+      folder = '04 - Daily/',
+      date_format = '%Y-%m-%d',
     },
     templates = {
-      subdir = "99 - Meta/00 - Templates/",
-      date_format = "%Y-%m-%d",
-      time_format = "%H:%M",
+      subdir = '99 - Meta/00 - Templates/',
+      date_format = '%Y-%m-%d',
+      time_format = '%H:%M',
     },
 
 
     note_id_func = function(title)
-      local suffix = ""
+      local suffix = ''
       if title ~= nil then
-        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        suffix = title:gsub(' ', '-'):gsub('[^A-Za-z0-9-]', ''):lower()
       else
         for _ = 1, 4 do
           suffix = suffix .. string.char(math.random(65, 90))
         end
       end
-      return os.date('%Y%m%d%H%M') .. "-" .. suffix
+      return os.date('%Y%m%d%H%M') .. '-' .. suffix
     end,
 
     follow_url_func = function(url)

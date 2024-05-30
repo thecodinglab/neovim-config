@@ -45,7 +45,7 @@ return {
         settings = {
           nixd = {
             formatting = {
-              command = "nixpkgs-fmt",
+              command = 'nixpkgs-fmt',
             },
           },
         },
