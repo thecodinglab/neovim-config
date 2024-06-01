@@ -62,6 +62,7 @@ return {
       configure_lsp_server('tsserver')
       configure_lsp_server('eslint')
 
+      configure_lsp_server('clangd')
       configure_lsp_server('hls')
       configure_lsp_server('pyright')
       configure_lsp_server('rust_analyzer')
@@ -76,11 +77,10 @@ return {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
 
-    cmd = { 'Trouble', 'TroubleToggle' },
+    cmd = { 'Trouble' },
     keys = {
-      { '<leader>xx', '<cmd>TroubleToggle<cr>' },
-      { '<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
-      { '<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>' },
+      { '<leader>xx', '<cmd>Trouble<cr>' },
+      { '<leader>xd', '<cmd>Trouble diagnostics toggle<cr>' },
     },
 
     opts = {},
