@@ -19,15 +19,15 @@ return {
 
   cmd = 'Telescope',
   keys = {
-    { '<leader>fp', function() require('telescope.builtin').resume() end,       mode = { 'n', 'v' } },
-    { '<leader>ff', function() require('telescope.builtin').find_files() end,   mode = { 'n', 'v' } },
-    { '<leader>fb', function() require('telescope.builtin').buffers() end,      mode = { 'n', 'v' } },
-    { '<leader>fh', function() require('telescope.builtin').help_tags() end,    mode = { 'n', 'v' } },
-    { '<leader>fd', function() require('telescope.builtin').diagnostics() end,  mode = { 'n', 'v' } },
+    { '<leader>fp', function() require('telescope.builtin').resume() end,                            mode = { 'n', 'v' } },
+    { '<leader>ff', function() require('telescope.builtin').find_files({ previewer = false }) end,   mode = { 'n', 'v' } },
+    { '<leader>fb', function() require('telescope.builtin').buffers({ previewer = false }) end,      mode = { 'n', 'v' } },
+    { '<leader>fh', function() require('telescope.builtin').help_tags({ previewer = false }) end,    mode = { 'n', 'v' } },
+    { '<leader>fd', function() require('telescope.builtin').diagnostics({ previewer = false }) end,  mode = { 'n', 'v' } },
 
-    { '<leader>fg', function() require('telescope.builtin').git_branches() end, mode = { 'n', 'v' } },
-    { '<leader>fc', function() require('telescope.builtin').git_commits() end,  mode = { 'n', 'v' } },
-    { '<leader>fC', function() require('telescope.builtin').git_bcommits() end, mode = { 'n', 'v' } },
+    { '<leader>fg', function() require('telescope.builtin').git_branches({ previewer = false }) end, mode = { 'n', 'v' } },
+    { '<leader>fc', function() require('telescope.builtin').git_commits({ previewer = false }) end,  mode = { 'n', 'v' } },
+    { '<leader>fC', function() require('telescope.builtin').git_bcommits({ previewer = false }) end, mode = { 'n', 'v' } },
 
     {
       '<leader>fs',
