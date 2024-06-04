@@ -5,6 +5,11 @@ return {
 
   opts = {
     flavour = 'mocha',
+    transparent_background = true,
+
+    integrations = {
+      fidget = true,
+    },
   },
 
   init = function()

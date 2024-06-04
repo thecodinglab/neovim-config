@@ -93,6 +93,11 @@ return {
 
     opts = {
       notification = {
+        -- suggested by catppuccin
+        window = {
+          winblend = 0,
+        },
+
         override_vim_notify = true,
       },
     },
