@@ -5,10 +5,12 @@ vim.opt.spelllang = 'en'
 -- line handling
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.cursorline = true
 vim.opt.scrolloff = 999
 vim.opt.sidescrolloff = 8
 vim.opt.wrap = false
+
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = 'number';
 
 -- file backups
 vim.opt.backup = false
