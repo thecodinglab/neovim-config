@@ -14,6 +14,9 @@
 
 , custom-config ? callPackage ./config.nix { }
 , preinstalled-lsp ? [ ]
+
+, languageToolUsername ? null
+, languageToolToken ? null
 }:
 let
   deps = [
@@ -31,7 +34,10 @@ let
     ripgrep
   ] ++ preinstalled-lsp;
 
-  extraWrapperArgs = [ "--suffix" "PATH" ":" (lib.makeBinPath deps) ];
+  extraWrapperArgs =
+    [ "--suffix" "PATH" ":" (lib.makeBinPath deps) ]
+    ++ (lib.optionals (languageToolUsername != null) [ "--set" "LANGUAGETOOL_USERNAME" languageToolUsername ])
+    ++ (lib.optionals (languageToolToken != null) [ "--set" "LANGUAGETOOL_TOKEN" languageToolToken ]);
 
   res = neovimUtils.makeNeovimConfig {
     withPython3 = false;

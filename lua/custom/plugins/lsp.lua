@@ -28,6 +28,28 @@ local function configure_lsp_server(server, extra)
   return true
 end
 
+local function configure_ltex()
+  local ltex_settings = {}
+
+  local username = os.getenv('LANGUAGETOOL_USERNAME')
+  local token = os.getenv('LANGUAGETOOL_TOKEN')
+
+  if username and token then
+    ltex_settings['languageToolHttpServerUrl'] = 'https://api.languagetoolplus.com'
+    ltex_settings['languageToolOrg'] = {
+      username = username,
+      apiKey = token,
+
+    }
+  end
+
+  configure_lsp_server('ltex', {
+    settings = {
+      ltex = ltex_settings,
+    },
+  })
+end
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -39,7 +61,7 @@ return {
     event = 'VeryLazy',
 
     config = function()
-      configure_lsp_server('ltex')
+      configure_ltex()
       configure_lsp_server('lua_ls')
       configure_lsp_server('nixd', {
         settings = {
