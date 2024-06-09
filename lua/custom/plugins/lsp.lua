@@ -89,6 +89,15 @@ return {
       configure_lsp_server('pyright')
       configure_lsp_server('rust_analyzer')
       configure_lsp_server('texlab')
+      configure_lsp_server('yamlls', {
+        settings = {
+          yaml = {
+            schemas = {
+              kubernetes = '*.yaml',
+            },
+          },
+        },
+      })
     end,
   },
 
