@@ -7,5 +7,8 @@ return {
     { '<leader>nf', '<cmd>Oil<cr>' },
   },
 
-  opts = {},
+  opts = {
+    default_file_explorer = true,
+    skip_confirm_for_simple_edits = true,
+  },
 }
