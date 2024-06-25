@@ -1,4 +1,5 @@
 { lib
+, pkgs
 , callPackage
 
 , neovim-unwrapped
@@ -6,6 +7,7 @@
 , wrapNeovimUnstable
 
 , git
+, rocks ? pkgs.luajitPackages.luarocks
 , gcc
 , gnumake
 , cmake
@@ -20,8 +22,9 @@
 }:
 let
   deps = [
-    # required by lazy to fetch plugins
+    # required by lazy.nvim to fetch/compile plugins
     git
+    rocks
 
     # required to build native libraries for things like treesitter
     # or nvim-telesceope-fzf-native
