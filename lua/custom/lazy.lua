@@ -39,6 +39,7 @@ lazy.setup({
   require('custom.plugins.hardtime'),
 
   require('custom.plugins.projects.latex'),
+  require('custom.plugins.projects.neovim'),
   require('custom.plugins.projects.obsidian'),
 }, {
   defaults = { lazy = true, },

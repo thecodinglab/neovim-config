@@ -56,7 +56,6 @@ return {
     dependencies = {
       'j-hui/fidget.nvim',
       'folke/neoconf.nvim',
-      'folke/neodev.nvim',
     },
     event = 'VeryLazy',
 
@@ -102,7 +101,6 @@ return {
   },
 
   { 'folke/neoconf.nvim', opts = {} },
-  { 'folke/neodev.nvim',  opts = {} },
 
   {
     'folke/trouble.nvim',
