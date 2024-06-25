@@ -3,7 +3,7 @@ local M = {
 }
 
 function M.is_large_file(filename)
-  local ok, stats = pcall(vim.loop.fs_stat, filename)
+  local ok, stats = pcall(vim.uv.fs_stat, filename)
   if ok and stats and stats.size > M.MAX_FILESIZE then
     return true
   end
