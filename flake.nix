@@ -3,62 +3,63 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-
-    neovim = {
-      url = "github:neovim/neovim/release-0.10?dir=contrib";
-
+    neovim-src = {
+      url = "github:neovim/neovim";
+      flake = false;
+    };
+    neovim-nightly = {
+      url = "github:nix-community/neovim-nightly-overlay";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
+        neovim-src.follows = "neovim-src";
       };
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
+  outputs = { self, nixpkgs, neovim-nightly, ... }:
+    let
+      systems = [
+        "aarch64-linux"
+        "i686-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
 
-          overlays = [
-            (final: prev: {
-              neovim-unwrapped = neovim.packages.${prev.system}.default.overrideAttrs
-                (final: prev: {
-                  treesitter-parsers = { };
-                });
-            })
-          ];
-        };
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+    in
+    {
+      packages = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system}; in {
+          config = pkgs.runCommand "neovim-config" { } "cp -r ${./.} $out/";
 
-        config = pkgs.callPackage ./nix/config.nix { };
+          default = pkgs.callPackage ./nix/distribution.nix {
+            neovim-unwrapped = neovim-nightly.packages.${system}.default.overrideAttrs (final: prev: {
+              treesitter-parsers = { };
+            });
 
-        distribution = pkgs.callPackage ./nix/distribution.nix {
-          custom-config = config;
-          preinstalled-lsp = [
-            pkgs.ltex-ls
-            pkgs.lua-language-server
-            pkgs.nixd
-            pkgs.nixpkgs-fmt
-            pkgs.gopls
+            custom-config = self.packages.${system}.config;
 
-            pkgs.nodePackages.typescript-language-server
-            pkgs.vscode-langservers-extracted
-          ];
-        };
-      in
-      {
-        packages = {
-          config = config;
-          default = distribution;
-        };
+            preinstalled-lsp = [
+              pkgs.ltex-ls
+              pkgs.lua-language-server
+              pkgs.nixd
+              pkgs.nixpkgs-fmt
+              pkgs.gopls
 
-        apps.default = {
+              pkgs.nodePackages.typescript-language-server
+              pkgs.vscode-langservers-extracted
+            ];
+          };
+        });
+
+      apps = forAllSystems (system: {
+        default = {
           type = "app";
-          program = "${distribution}/bin/nvim";
+          program = "${self.packages.${system}.default}/bin/nvim";
         };
+      });
 
-        formatter = pkgs.nixpkgs-fmt;
-      }
-    );
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+    };
 }

@@ -4,6 +4,7 @@
 
 , neovim-unwrapped
 , neovimUtils
+, makeNeovimConfig ? neovimUtils.makeNeovimConfig
 , wrapNeovimUnstable
 
 , git
@@ -42,7 +43,7 @@ let
     ++ (lib.optionals (languageToolUsername != null) [ "--set" "LANGUAGETOOL_USERNAME" languageToolUsername ])
     ++ (lib.optionals (languageToolToken != null) [ "--set" "LANGUAGETOOL_TOKEN" languageToolToken ]);
 
-  res = neovimUtils.makeNeovimConfig {
+  res = makeNeovimConfig {
     withPython3 = false;
     withRuby = false;
 
