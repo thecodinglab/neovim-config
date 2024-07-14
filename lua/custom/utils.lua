@@ -1,15 +1,20 @@
 local M = {
-  MAX_FILESIZE = 100000, -- 100kb
+  MAX_FILESIZE = 1000000, -- 1mb
 }
 
 function M.is_large_file(filename)
-  local ok, stats = pcall(vim.uv.fs_stat, filename)
-  if ok and stats and stats.size > M.MAX_FILESIZE then
+  local ok, stat = pcall(vim.uv.fs_stat, filename)
+  if ok and stat and stat.size > M.MAX_FILESIZE then
     return true
   end
 end
 
 function M.is_large_buffer(bufnr)
+  local file = vim.api.nvim_buf_get_name(bufnr)
+  if file then
+    return M.is_large_file(file)
+  end
+
   local num_lines = vim.api.nvim_buf_line_count(bufnr)
   local byte_size = vim.api.nvim_buf_get_offset(bufnr, num_lines)
   return byte_size > M.MAX_FILESIZE

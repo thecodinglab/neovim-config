@@ -19,6 +19,11 @@ return {
 
   cmd = 'Telescope',
   keys = {
+    { 'gd',         function() require('telescope.builtin').lsp_definitions() end,                   mode = { 'n' } },
+    { 'gr',         function() require('telescope.builtin').lsp_references() end,                    mode = { 'n' } },
+    { 'gi',         function() require('telescope.builtin').lsp_implementations() end,               mode = { 'n' } },
+    { 'go',         function() require('telescope.builtin').lsp_type_definitions() end,              mode = { 'n' } },
+
     { '<leader>fp', function() require('telescope.builtin').resume() end,                            mode = { 'n', 'v' } },
     { '<leader>ff', function() require('telescope.builtin').find_files({ previewer = false }) end,   mode = { 'n', 'v' } },
     { '<leader>fb', function() require('telescope.builtin').buffers({ previewer = false }) end,      mode = { 'n', 'v' } },

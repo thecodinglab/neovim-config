@@ -8,7 +8,7 @@ local function organize_imports(timeout)
     return
   end
 
-  local params = vim.lsp.util.make_range_params()
+  local params = vim.lsp.util.make_formatting_params()
   params.context = {
     only = { 'source.organizeImports' }
   }
