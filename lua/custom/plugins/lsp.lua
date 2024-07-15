@@ -95,7 +95,10 @@ return {
       configure_lsp_server('tsserver')
       configure_lsp_server('eslint')
 
-      configure_lsp_server('clangd')
+      configure_lsp_server('clangd', {
+        -- NOTE: all supported filetypes (see :help lspconfig-all) without protobuf
+        filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+      })
       configure_lsp_server('hls')
       configure_lsp_server('pyright')
       configure_lsp_server('rust_analyzer')
