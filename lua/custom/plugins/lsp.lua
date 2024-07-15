@@ -103,14 +103,14 @@ return {
       configure_lsp_server('pyright')
       configure_lsp_server('rust_analyzer')
       configure_lsp_server('texlab')
-      configure_lsp_server('yamlls', {
+      configure_lsp_server('helm_ls', {
         settings = {
-          yaml = {
-            schemas = {
-              kubernetes = '*.yaml',
-            },
-          },
-        },
+          ['helm-ls'] = {
+            yamlls = {
+              path = 'yaml-language-server',
+            }
+          }
+        }
       })
     end,
   },
