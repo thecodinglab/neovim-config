@@ -75,9 +75,21 @@ return {
       configure_lsp_server('gopls', {
         settings = {
           gopls = {
-            ['local'] = 'github.com/thecodinglab', -- TODO: detect current module from `go.mod`
+            gofumpt = true,
           },
         },
+        on_new_config = function(new_config, new_root_dir)
+          if vim.uv.fs_stat(new_root_dir .. '/go.mod') then
+            local res = vim.system({ 'go', 'list', '-m' }, {
+              cwd = new_root_dir,
+              text = true
+            }):wait()
+
+            if res.code == 0 then
+              new_config.settings.gopls['local'] = vim.trim(res.stdout)
+            end
+          end
+        end,
       })
 
       configure_lsp_server('tsserver')
