@@ -18,14 +18,7 @@
 
   outputs = { self, nixpkgs, neovim-nightly, ... }:
     let
-      systems = [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-
+      systems = builtins.attrNames neovim-nightly.packages;
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
