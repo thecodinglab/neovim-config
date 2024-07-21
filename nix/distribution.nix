@@ -1,25 +1,26 @@
-{ lib
-, pkgs
-, callPackage
+{
+  lib,
+  pkgs,
+  callPackage,
 
-, neovim-unwrapped
-, neovimUtils
-, makeNeovimConfig ? neovimUtils.makeNeovimConfig
-, wrapNeovimUnstable
+  neovim-unwrapped,
+  neovimUtils,
+  makeNeovimConfig ? neovimUtils.makeNeovimConfig,
+  wrapNeovimUnstable,
 
-, git
-, rocks ? pkgs.luajitPackages.luarocks
-, gcc
-, gnumake
-, cmake
-, fd
-, ripgrep
+  git,
+  rocks ? pkgs.luajitPackages.luarocks,
+  gcc,
+  gnumake,
+  cmake,
+  fd,
+  ripgrep,
 
-, custom-config ? callPackage ./config.nix { }
-, preinstalled-lsp ? [ ]
+  custom-config ? callPackage ./config.nix { },
+  preinstalled-lsp ? [ ],
 
-, languageToolUsername ? null
-, languageToolToken ? null
+  languageToolUsername ? null,
+  languageToolToken ? null,
 }:
 let
   deps = [
@@ -39,19 +40,30 @@ let
   ] ++ preinstalled-lsp;
 
   extraWrapperArgs =
-    [ "--suffix" "PATH" ":" (lib.makeBinPath deps) ]
-    ++ (lib.optionals (languageToolUsername != null) [ "--set" "LANGUAGETOOL_USERNAME" languageToolUsername ])
-    ++ (lib.optionals (languageToolToken != null) [ "--set" "LANGUAGETOOL_TOKEN" languageToolToken ]);
+    [
+      "--suffix"
+      "PATH"
+      ":"
+      (lib.makeBinPath deps)
+    ]
+    ++ (lib.optionals (languageToolUsername != null) [
+      "--set"
+      "LANGUAGETOOL_USERNAME"
+      languageToolUsername
+    ])
+    ++ (lib.optionals (languageToolToken != null) [
+      "--set"
+      "LANGUAGETOOL_TOKEN"
+      languageToolToken
+    ]);
 
   res = makeNeovimConfig {
     withPython3 = false;
     withRuby = false;
 
-    plugins = [
-      custom-config
-    ];
+    plugins = [ custom-config ];
   };
 in
-wrapNeovimUnstable neovim-unwrapped (res // {
-  wrapperArgs = lib.escapeShellArgs (res.wrapperArgs ++ extraWrapperArgs);
-})
+wrapNeovimUnstable neovim-unwrapped (
+  res // { wrapperArgs = lib.escapeShellArgs (res.wrapperArgs ++ extraWrapperArgs); }
+)

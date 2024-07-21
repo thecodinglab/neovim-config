@@ -16,20 +16,30 @@
     };
   };
 
-  outputs = { self, nixpkgs, neovim-nightly, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      neovim-nightly,
+      ...
+    }:
     let
       systems = builtins.attrNames neovim-nightly.packages;
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      packages = forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system}; in {
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
           config = pkgs.runCommand "neovim-config" { } "cp -r ${./.} $out/";
 
           default = pkgs.callPackage ./nix/distribution.nix {
-            neovim-unwrapped = neovim-nightly.packages.${system}.default.overrideAttrs (final: prev: {
-              treesitter-parsers = { };
-            });
+            neovim-unwrapped = neovim-nightly.packages.${system}.default.overrideAttrs (
+              final: prev: { treesitter-parsers = { }; }
+            );
 
             custom-config = self.packages.${system}.config;
 
@@ -37,14 +47,15 @@
               pkgs.ltex-ls
               pkgs.lua-language-server
               pkgs.nixd
-              pkgs.nixpkgs-fmt
+              pkgs.nixfmt-rfc-style
               pkgs.gopls
 
               pkgs.nodePackages.typescript-language-server
               pkgs.vscode-langservers-extracted
             ];
           };
-        });
+        }
+      );
 
       apps = forAllSystems (system: {
         default = {
@@ -53,6 +64,6 @@
         };
       });
 
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
     };
 }
