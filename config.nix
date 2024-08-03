@@ -328,6 +328,7 @@
 
     oil.enable = true;
     gitsigns.enable = true;
+    lazygit.enable = true;
     surround.enable = true;
     undotree.enable = true;
     hardtime.enable = true;
