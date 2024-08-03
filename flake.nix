@@ -3,16 +3,23 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
     neovim-src = {
       url = "github:neovim/neovim";
       flake = false;
     };
+
     neovim-nightly = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         neovim-src.follows = "neovim-src";
       };
+    };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -21,6 +28,7 @@
       self,
       nixpkgs,
       neovim-nightly,
+      nixvim,
       ...
     }:
     let
@@ -28,39 +36,26 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          config = pkgs.runCommand "neovim-config" { } "cp -r ${./.} $out/";
-
-          default = pkgs.callPackage ./nix/distribution.nix {
-            neovim-unwrapped = neovim-nightly.packages.${system}.default.overrideAttrs (
-              final: prev: { treesitter-parsers = { }; }
-            );
-
-            custom-config = self.packages.${system}.config;
-
-            preinstalled-lsp = [
-              pkgs.ltex-ls
-              pkgs.lua-language-server
-              pkgs.nixd
-              pkgs.nixfmt-rfc-style
-              pkgs.gopls
-
-              pkgs.nodePackages.typescript-language-server
-              pkgs.vscode-langservers-extracted
+      packages = forAllSystems (system: {
+        default = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              (final: prev: {
+                neovim-unwrapped = neovim-nightly.packages.${system}.default.overrideAttrs {
+                  treesitter-parsers = { };
+                };
+              })
             ];
           };
-        }
-      );
+          module = ./config.nix;
+        };
+      });
 
       apps = forAllSystems (system: {
         default = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/nvim";
+          program = nixpkgs.lib.getExe self.packages.${system}.default;
         };
       });
 
